@@ -11,6 +11,9 @@ kernel_ll:
 	cli				; Disable the interrupts.
 	call load_gdt			; Load the GDT.
 
+	extern kernel_main		; kernel.c
+	call kernel_main
+
 	ret
 
 ; Load the GDT.
