@@ -1,6 +1,6 @@
-; +------------------------+
-; | Basic Opetating System |
-; +------------------------+
+; +-------------------------+
+; | Basic Opetating System. |
+; +-------------------------+
 
 bits 32
 
@@ -35,10 +35,8 @@ header:
 ;----------------------
 
 skip_header:
-	cli
-	
-	mov byte [0xB8000], 'P'
-	mov byte [0xB8001], 0x1B
+	extern kernel_ll		; kernel.asm
+	call kernel_ll
 
 ; Halt the CPU.
 global halt
