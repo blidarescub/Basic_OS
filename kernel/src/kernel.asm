@@ -1,11 +1,11 @@
 ; +-------------------------+
 ; | Basic Operating System. |
 ; +-------------------------+
-; Low-level part of the Kernel.
+; The low-level part of the kernel.
 
 bits 32
 
-; LL (low-level) kernel main.
+; The low-level kernel main.
 global kernel_ll
 kernel_ll:
 	cli				; Disable the interrupts.
