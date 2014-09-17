@@ -15,7 +15,7 @@ all: build
 
 build: src/start.o src/kernel_ll.o $(OBJECTS)
 	$(LN) $(LFLAGS)
-	../disk.sh ../
+	@../disk.sh ../
 
 src/start.o: src/start.asm
 	$(ASM) $(AFLAGS) $< -o $@
