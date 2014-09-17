@@ -1,0 +1,4 @@
+floppya: 1_44=disk/myos.img, status=inserted
+boot: floppy
+
+display_library: sdl
