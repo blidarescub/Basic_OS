@@ -38,9 +38,6 @@ skip_header:
 	extern kernel_ll		; kernel.asm
 	call kernel_ll
 
-	mov byte [0xB8000], 'P'
-	mov byte [0xB8001], 0x1B
-
 ; Halt the CPU.
 global halt
 halt:
