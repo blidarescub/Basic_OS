@@ -41,6 +41,8 @@ SomeDir $ git clone https://github.com/exetwezz/Basic_OS
 
 ## Building the sources.
 
+Run these commands to build the downloaded sources:
+
 ```
 SomeDir $ cd Basic_OS
 Basic_OS $ cd kernel
