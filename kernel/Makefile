@@ -1,26 +1,25 @@
 CC = clang
 CFLAGS = -Wall -m32 -c -ffreestanding -Iinclude/ -nostdinc -nostdlib
 
-SOURCES = $(wildcard src/*.c)
-OBJECTS = $(SOURCES:.c=.o)
+ASOURCES = $(wildcard src/*.asm)
+AOBJECTS = $(ASOURCES:.asm=.o)
+CSOURCES = $(wildcard src/*.c)
+COBJECTS = $(CSOURCES:.c=.o)
 OUTPUT = ../bin/kernel.bin
 
 ASM = nasm
 AFLAGS = -f elf32
 
 LN = ld
-LFLAGS = -T linker.ld -o $(OUTPUT) src/start.o src/kernel_ll.o $(OBJECTS)
+LFLAGS = -T linker.ld -o $(OUTPUT) $(AOBJECTS) $(COBJECTS)
 
 all: build
 
-build: src/start.o src/kernel_ll.o $(OBJECTS)
+build: $(AOBJECTS) $(COBJECTS)
 	$(LN) $(LFLAGS)
 	@../disk.sh ../
 
-src/start.o: src/start.asm
-	$(ASM) $(AFLAGS) $< -o $@
-
-src/kernel_ll.o: src/kernel.asm
+%.o: %.asm
 	$(ASM) $(AFLAGS) $< -o $@
 
 %.o: %.c
