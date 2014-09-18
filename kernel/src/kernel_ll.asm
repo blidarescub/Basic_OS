@@ -14,6 +14,11 @@ kernel_ll:
 	extern kernel_main		; kernel.c
 	call kernel_main
 
+	; Exception check.
+	mov ax, 2
+	xor bx, bx
+	div bx
+
 	ret
 
 ; Load the GDT.
@@ -52,3 +57,10 @@ load_gdt:
 		.ptr:
 			dw gdt - .end - 1
 			dd gdt
+
+; Load the IDT.
+global load_idt
+load_idt:
+	extern idt_ptr			; idt.c
+	lidt [idt_ptr]
+	ret
