@@ -41,7 +41,6 @@ skip_header:
 ; Halt the CPU.
 global halt
 halt:
-	cli
 	hlt
 	jmp halt
 

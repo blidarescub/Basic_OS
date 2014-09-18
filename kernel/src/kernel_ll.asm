@@ -8,16 +8,11 @@ bits 32
 ; The low-level kernel main.
 global kernel_ll
 kernel_ll:
-	cli				; Disable the interrupts.
+	cli
 	call load_gdt			; Load the GDT.
 
 	extern kernel_main		; kernel.c
 	call kernel_main
-
-	; Exception check.
-	mov ax, 2
-	xor bx, bx
-	div bx
 
 	ret
 
@@ -63,4 +58,34 @@ global load_idt
 load_idt:
 	extern idt_ptr			; idt.c
 	lidt [idt_ptr]
+	sti
+	ret
+
+; Remap the PICs.
+global remap_pics
+remap_pics:
+	mov ax, 0x11
+	out 0x20, ax
+	out 0xA0, ax
+
+	mov ax, 0x20
+	out 0x21, ax
+	mov ax, 0x28
+	out 0xA1, ax
+
+	mov ax, 0x04
+	out 0x21, ax
+	mov ax, 0x02
+	out 0xA1, ax
+
+	mov ax, 0x01
+	out 0x21, ax
+	mov ax, 0x01
+	out 0xA1, ax
+
+	mov ax, 0xFD
+	out 0x21, ax
+	mov ax, 0xFF
+	out 0xA1, ax
+
 	ret

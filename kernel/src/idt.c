@@ -15,6 +15,8 @@ void setup_idt (void)
 	idt_ptr.size = (sizeof (idt_entry) * 256) - 1;
 	idt_ptr.address = (u32) &idt;
 
+	remap_pics ();
+
 	set_idt_entry (0, (u32) &exc0);
 	set_idt_entry (1, (u32) &exc1);
 	set_idt_entry (2, (u32) &exc2);
@@ -48,6 +50,23 @@ void setup_idt (void)
 	set_idt_entry (30, (u32) &exc30);
 	set_idt_entry (31, (u32) &exc31);
 
+	set_idt_entry (32, (u32) &irq0);
+	set_idt_entry (33, (u32) &irq1);
+	set_idt_entry (34, (u32) &irq2);
+	set_idt_entry (35, (u32) &irq3);
+	set_idt_entry (36, (u32) &irq4);
+	set_idt_entry (37, (u32) &irq5);
+	set_idt_entry (38, (u32) &irq6);
+	set_idt_entry (39, (u32) &irq7);
+	set_idt_entry (40, (u32) &irq8);
+	set_idt_entry (41, (u32) &irq9);
+	set_idt_entry (42, (u32) &irq10);
+	set_idt_entry (43, (u32) &irq11);
+	set_idt_entry (44, (u32) &irq12);
+	set_idt_entry (45, (u32) &irq13);
+	set_idt_entry (46, (u32) &irq14);
+	set_idt_entry (47, (u32) &irq15);
+
 	load_idt ();
 }
 
@@ -61,8 +80,8 @@ void set_idt_entry (int num, u32 routineAddr)
 	idt[num].routineAddr_high = (routineAddr >> 16) & 0xFFFF;
 }
 
-// Exception handler.
-void exc_handler (regs_t *regs)
+// Exceptions handler.
+void excs_handler (regs_t *regs)
 {
 	const char *msg[32] =
 	{
@@ -101,10 +120,23 @@ void exc_handler (regs_t *regs)
 
 	if (regs->num <= 31)
 	{
-		init_screen ();
 		clear_screen ();
 		puts (msg[regs->num]);
-		puts (" was occurred.");
+		puts (" Exception was occurred.");
 		halt ();
 	}
+	else
+	{
+		clear_screen ();
+		puts ("Exception Handler was called, but no such exception.");
+		halt ();
+	}
+}
+
+// IRQs handler.
+void irqs_handler (regs_t *regs)
+{
+	clear_screen ();
+	puts ("Interrupt was occurred.");
+	halt ();
 }
