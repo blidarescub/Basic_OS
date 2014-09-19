@@ -10,7 +10,7 @@ It will contain the following things:
 * GDT;
 * IDT;
 * ISRs for all Exceptions;
-* ISRs for all 2 important IRQs:
+* ISRs for 2 important IRQs:
 	* For the PIT (timer) — Count the time from the start of the OS.
 	* For the Keyboard — Store last 10 pressed keys in the buffer and allow
 	                     programs to access them.
