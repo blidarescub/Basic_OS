@@ -4,18 +4,36 @@
 #include <idt.h>
 #include <isrs.h>
 #include <screen.h>
+#include <inoutb.h>
 #include <types.h>
 
 idt_entry	idt[256];
 idt_pointer	idt_ptr;
+
+// Remap the PICs.
+void remap_pics (void)
+{
+	outb (0x20, 0x11);
+	outb (0xA0, 0x11);
+
+	outb (0x21, 0x20);
+	outb (0xA1, 0x28);
+
+	outb (0x21, 0x04);
+	outb (0xA1, 0x02);
+
+	outb (0x21, 0x01);
+	outb (0xA1, 0x01);
+
+	outb (0x21, 0xFD);
+	outb (0xA1, 0xFF);
+}
 
 // Initialize and load the IDT.
 void setup_idt (void)
 {
 	idt_ptr.size = (sizeof (idt_entry) * 256) - 1;
 	idt_ptr.address = (u32) &idt;
-
-	remap_pics ();
 
 	set_idt_entry (0, (u32) &exc0);
 	set_idt_entry (1, (u32) &exc1);
@@ -50,6 +68,7 @@ void setup_idt (void)
 	set_idt_entry (30, (u32) &exc30);
 	set_idt_entry (31, (u32) &exc31);
 
+	remap_pics ();
 	set_idt_entry (32, (u32) &irq0);
 	set_idt_entry (33, (u32) &irq1);
 	set_idt_entry (34, (u32) &irq2);
@@ -138,5 +157,10 @@ void irqs_handler (regs_t *regs)
 {
 	clear_screen ();
 	puts ("Interrupt was occurred.");
-	halt ();
+
+	if (regs->num >= 8)
+	{
+		outb (0xA0, 0x20);
+	}
+	outb (0x20, 0x20);
 }

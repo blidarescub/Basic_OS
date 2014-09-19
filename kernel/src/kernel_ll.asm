@@ -60,32 +60,3 @@ load_idt:
 	lidt [idt_ptr]
 	sti
 	ret
-
-; Remap the PICs.
-global remap_pics
-remap_pics:
-	mov ax, 0x11
-	out 0x20, ax
-	out 0xA0, ax
-
-	mov ax, 0x20
-	out 0x21, ax
-	mov ax, 0x28
-	out 0xA1, ax
-
-	mov ax, 0x04
-	out 0x21, ax
-	mov ax, 0x02
-	out 0xA1, ax
-
-	mov ax, 0x01
-	out 0x21, ax
-	mov ax, 0x01
-	out 0xA1, ax
-
-	mov ax, 0xFD
-	out 0x21, ax
-	mov ax, 0xFF
-	out 0xA1, ax
-
-	ret

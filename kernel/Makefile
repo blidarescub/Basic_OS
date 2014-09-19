@@ -26,4 +26,4 @@ build: $(AOBJECTS) $(COBJECTS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -rf $(OBJECTS) $(OUTPUT)
+	rm -rf $(AOBJECTS) $(COBJECTS) $(OUTPUT)
