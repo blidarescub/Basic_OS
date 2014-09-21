@@ -25,8 +25,8 @@ void remap_pics (void)
 	outb (0x21, 0x01);
 	outb (0xA1, 0x01);
 
-	outb (0x21, 0xFD);
-	outb (0xA1, 0xFF);
+//	outb (0x21, 0xFD);
+//	outb (0xA1, 0xFF);
 }
 
 // Initialize and load the IDT.
@@ -100,7 +100,7 @@ void set_idt_entry (int num, u32 routineAddr)
 }
 
 // Exceptions handler.
-void excs_handler (regs_t *regs)
+void excs_handler (regs_exc_t *regs)
 {
 	const char *msg[32] =
 	{
@@ -153,10 +153,9 @@ void excs_handler (regs_t *regs)
 }
 
 // IRQs handler.
-void irqs_handler (regs_t *regs)
+void irqs_handler (regs_irq_t *regs)
 {
-	clear_screen ();
-	puts ("Interrupt was occurred.");
+	puts ("Interrupt was occurred.\n");
 
 	if (regs->num >= 8)
 	{

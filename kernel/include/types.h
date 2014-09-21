@@ -14,6 +14,13 @@ typedef struct
 	u32 edi, esi, ebp, esp, ebx, edx, ecx, eax;
 	u32 num, err_code;
 	u32 eip, cs, eflags, useresp, ss;
-} __attribute__ ((packed)) regs_t;
+} __attribute__ ((packed)) regs_exc_t;
+
+typedef struct
+{
+	u32 edi, esi, ebp, esp, ebx, edx, ecx, eax;
+	u32 num;
+	u32 eip, cs, eflags, useresp, ss;
+} __attribute__ ((packed)) regs_irq_t;
 
 #endif /* !TYPES_H */

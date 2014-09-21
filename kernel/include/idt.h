@@ -25,8 +25,8 @@ typedef struct
 void remap_pics (void);
 void setup_idt (void);
 void set_idt_entry (int, u32);
-void excs_handler (regs_t *);
-void irqs_handler (regs_t *);
+void excs_handler (regs_exc_t *);
+void irqs_handler (regs_irq_t *);
 
 /* kernel_ll.asm */
 extern void load_idt (void);
