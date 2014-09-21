@@ -81,19 +81,8 @@ extern irqs_handler
 	; arg1 - IRQ number.
 	global irq%1
 	irq%1:
-		push byte 0			; Fake error code (for regs_t).
 		push byte %1			; IRQ number.
 		pusha
-		push ds
-		push es
-		push fs
-		push gs
-
-		mov ax, 0x10
-		mov ds, ax
-		mov es, ax
-		mov fs, ax
-		mov gs, ax
 
 		mov eax, esp
 		push eax		; An argument to the C function.
@@ -101,12 +90,8 @@ extern irqs_handler
 		call eax
 		pop eax
 
-		pop gs
-		pop fs
-		pop es
-		pop ds
 		popa
-		add esp, 8			; Skip the two bytes pushed.
+		add esp, 4			; Skip the pushed IRQ number.
 		iret
 %endmacro
 
