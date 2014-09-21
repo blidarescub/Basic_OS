@@ -25,8 +25,8 @@ void remap_pics (void)
 	outb (0x21, 0x01);
 	outb (0xA1, 0x01);
 
-//	outb (0x21, 0xFD);
-//	outb (0xA1, 0xFF);
+	outb (0x21, 0x00);
+	outb (0xA1, 0x00);
 }
 
 // Initialize and load the IDT.
@@ -97,69 +97,4 @@ void set_idt_entry (int num, u32 routineAddr)
 	idt[num].reserved = 0;
 	idt[num].type_and_attributes = 0x8E;
 	idt[num].routineAddr_high = (routineAddr >> 16) & 0xFFFF;
-}
-
-// Exceptions handler.
-void excs_handler (regs_exc_t *regs)
-{
-	const char *msg[32] =
-	{
-		"Divide By Zero",
-		"Debug",
-		"Non-maskable Interrupt",
-		"Breakpoint",
-		"Overflow",
-		"Bound Range Exceeded",
-		"Invalid Opcode",
-		"Device Not Available",
-		"Double Fault",
-		"Coprocessor Segment Overrun",
-		"Invalid TSS",
-		"Segment Not Present",
-		"Stack-Segment Fault",
-		"General Protection Fault",
-		"Page Fault",
-		"Reserved",
-		"x87 Floating-Point",
-		"Alignment Check",
-		"Machine Check",
-		"SIMD Floating-Point",
-		"Reserved",
-		"Reserved",
-		"Reserved",
-		"Reserved",
-		"Reserved",
-		"Reserved",
-		"Reserved",
-		"Reserved",
-		"Reserved",
-		"Security",
-		"Reserved",
-	};
-
-	if (regs->num <= 31)
-	{
-		clear_screen ();
-		puts (msg[regs->num]);
-		puts (" Exception was occurred.");
-		halt ();
-	}
-	else
-	{
-		clear_screen ();
-		puts ("Exception Handler was called, but no such exception.");
-		halt ();
-	}
-}
-
-// IRQs handler.
-void irqs_handler (regs_irq_t *regs)
-{
-	puts ("Interrupt was occurred.\n");
-
-	if (regs->num >= 8)
-	{
-		outb (0xA0, 0x20);
-	}
-	outb (0x20, 0x20);
 }
