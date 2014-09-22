@@ -13,7 +13,7 @@ Here is a TODO list.
 - [x] Calling the C function (from `kernel_ll.asm` to `kernel.c`).
 - [x] The IDT (`idt.c`).
 - [x] The ISRs for the Exceptions (`kernel_ll.asm`).
-- [ ] The ISRs for the two important IRQs.
+- [x] The ISRs for the two important IRQs.
 	- [x] The Keyboard ISR and handler (`isrs.asm`, `idt.c` and `keyboard.c`.
-	- [ ] The PIT (timer) ISR and handler.
+	- [x] The PIT (timer) ISR and handler.
 - [ ] The memory allocation function.
