@@ -8,12 +8,12 @@ What is left?
 
 Here is a TODO list.
 
-- [x] Basic files (`Makefile`, `linker.ld`, `start.asm`).
+- [x] Basic files (`Makefile`, `linker.ld` and `start.asm`).
 - [x] The GDT (`kernel_ll.asm`).
 - [x] Calling the C function (from `kernel_ll.asm` to `kernel.c`).
 - [x] The IDT (`idt.c`).
 - [x] The ISRs for the Exceptions (`kernel_ll.asm`).
 - [ ] The ISRs for the two important IRQs.
-	- [ ] The Keyboard ISR and handler.
+	- [x] The Keyboard ISR and handler (`isrs.asm`, `idt.c` and `keyboard.c`.
 	- [ ] The PIT (timer) ISR and handler.
 - [ ] The memory allocation function.
