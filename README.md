@@ -54,18 +54,13 @@ kernel $ make
 Running.
 ========
 
-If you want to run the compiled Basic OS, you must to have these packages:
+To run the compiled Basic OS in the **Bochs**, type `./run.sh`.
+To run it in the **QEMU**, type `./run.sh qemu`.
 
-```
-* bochs
-* bochs-sdl
-```
+## Installing an emulator.
 
-The running of the OS is pretty simple:
-
-```
-Basic_OS $ ./run.sh
-```
+**Bochs:** `$ sudo apt-get install bochs bochs-sdl`<br>
+**QEMU:** `$ sudo apt-get install qemu-system-i386`
 
 Need help?
 ==========
