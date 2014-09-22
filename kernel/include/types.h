@@ -8,6 +8,7 @@ typedef unsigned char	u8;
 typedef unsigned short	u16;
 typedef unsigned int	u32;
 
+// Registers pushed in an Exception IRQ.
 typedef struct
 {
 	u32 gs, fs, es, ds;
@@ -16,6 +17,7 @@ typedef struct
 	u32 eip, cs, eflags, useresp, ss;
 } __attribute__ ((packed)) regs_exc_t;
 
+// Registers pushed in an IRQ ISR.
 typedef struct
 {
 	u32 edi, esi, ebp, esp, ebx, edx, ecx, eax;
