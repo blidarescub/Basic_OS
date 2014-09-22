@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Usage: ./run.sh [emulator]
+# Emulators:
+#   bochs
+#   qemu
+#   .. or another (if you add the code to run it).
+# Examples:
+#  ./run.sh		# Equal to ./run.sh bochs
+#  ./run.sh qemu
+
 default=bochs
 current=
 

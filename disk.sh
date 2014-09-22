@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script copies the `bin/kernel.bin' to the floppy disk image.
+
 printf 'Requesting the root privileges... '
 sudo echo 'Done.'
 
