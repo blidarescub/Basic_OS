@@ -41,12 +41,36 @@ void putch_at (char ch, int column, int row)
 	video_buffer[offset] = ch | (0x07 << 8);
 }
 
+// Go to the next line.
+static inline void newline (void)
+{
+	++cursor_row;
+	cursor_column = 0;
+	if (cursor_row >= SCREEN_HEIGHT)
+		scroll_screen ();
+}
+
+// Implement backspace.
+static inline void backspace (void)
+{
+	if (cursor_column > 0)
+	{
+		--cursor_column;
+		putch (' ');
+		--cursor_column;
+	}
+}
+
 // Draw a character at the cursor position.
 void putch (char ch)
 {
 	if (ch == '\n')
 	{
-//		newline ();
+		newline ();
+	}
+	else if (ch == '\b')
+	{
+		backspace ();
 	}
 	else
 	{
