@@ -4,6 +4,7 @@
 #include <screen.h>
 #include <idt.h>
 #include <keyboard.h>
+#include <timer.h>
 
 // The C kernel main.
 void kernel_main (void)
@@ -13,6 +14,7 @@ void kernel_main (void)
 
 	setup_idt ();
 	init_keyboard_handler ();
+	init_timer_handler ();
 
 	puts ("Hello World");
 }
