@@ -3,6 +3,7 @@
 
 #include <screen.h>
 #include <idt.h>
+#include <keyboard.h>
 
 // The C kernel main.
 void kernel_main (void)
@@ -11,6 +12,7 @@ void kernel_main (void)
 	clear_screen ();
 
 	setup_idt ();
+	init_keyboard_handler ();
 
 	puts ("Hello World");
 }
