@@ -17,6 +17,8 @@ It will contain the following things:
 * Memory allocation function.
 ```
 
+Also read [GOAL_TODO.md](https://github.com/ExeTwezz/Basic_OS/blob/master/GOAL_TODO.md) to see the goal of the Basic OS and what things are implemented and what are not.
+
 Building.
 =========
 
