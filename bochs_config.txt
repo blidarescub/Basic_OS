@@ -1,6 +1,8 @@
+clock: sync=realtime
+
+megs: 64
+
 floppya: 1_44=disk/myos.img, status=inserted
 boot: floppy
-
-clock: sync=realtime
 
 display_library: sdl
