@@ -2,7 +2,7 @@ Basic Operating System.
 =======================
 
 **Status:** 1.1 in development.<br>
-**Version:** 1.0.
+**Version:** 1.0.1.
 
 This is the **Basic OS**. The purpose of this OS is shown in the title: &laquo;Create a base for operating systems&raquo;. 
 It will contain the following things:
@@ -53,18 +53,21 @@ kernel $ make
 Running.
 ========
 
-I don't recommend to use the QEMU, since I oriented to using the Bochs. The problem is that the Bochs's PIT and QEMU's PIT work differently (Bochs's works 10 times faster).
+Run in the Bochs: `$ ./run.sh` or `$ ./run.sh bochs`
+Run in the QEMU: `$ ./run.sh qemu`
 
-```
-$ ./run.sh
-```
+## Installing an emulator.
 
-## Installing the Bochs.
-
-It's pretty simple, so don't be lazy and install the Bochs!
+### Bochs.
 
 ```
 $ sudo apt-get install bochs bochs-sdl
+```
+
+### QEMU.
+
+```
+$ sudo apt-get install qemu-system-i386
 ```
 
 Need help?
