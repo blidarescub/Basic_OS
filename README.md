@@ -55,6 +55,10 @@ Running.
 
 I don't recommend to use the QEMU, since I oriented to using the Bochs. The problem is that the Bochs's PIT and QEMU's PIT work differently (Bochs's works 10 times faster).
 
+```
+$ ./run.sh
+```
+
 ## Installing the Bochs.
 
 It's pretty simple, so don't be lazy and install the Bochs!
