@@ -15,9 +15,9 @@ This version contains:
 The hierarchy of the directories:
 
 ```
-- bin/			The compiled kernel (kernel.bin).
-- disk/			The floppy image disks.
-- kernel/		The sources of the OS and the scripts to build them.
-  - src/		The source files (.c, .asm).
+- bin/			    The compiled kernel (kernel.bin).
+- disk/			    The floppy image disks.
+- kernel/	    	The sources of the OS and the scripts to build them.
+  - src/	    	The source files (.c, .asm).
   - include/		The header files (.h).
 ```
