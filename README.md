@@ -8,6 +8,11 @@ This is the **Basic OS**. The purpose of this OS is shown in the title: &laquo;C
 It will contain the following things:
 
 ```
+* GDT.
+* IDT.
+* Exceptions handler, IRQs handler.
+* Keyboard handler.
+* PIT (timer) handler.
 * Memory allocations.
 ```
 
