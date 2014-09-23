@@ -1,7 +1,8 @@
 Basic Operating System.
 =======================
 
-**Status:** in development.
+**Status:** 1.0 released.<br>
+**Version:** 1.0.
 
 This is the **Basic OS**. The purpose of this OS is shown in the title: &laquo;Create a base for operating systems&raquo;. 
 It will contain the following things:
@@ -14,7 +15,6 @@ It will contain the following things:
 	* For the PIT (timer) — Count the time from the start of the OS.
 	* For the Keyboard — Store last 10 pressed keys in the buffer and allow
 	                     programs to access them.
-* Memory allocation function.
 ```
 
 Also read [GOAL_TODO.md](https://github.com/ExeTwezz/Basic_OS/blob/master/GOAL_TODO.md) to see the goal of the Basic OS and what things are implemented and what are not.
