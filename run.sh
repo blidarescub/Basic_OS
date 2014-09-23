@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# WARNING: THERE ARE PROBLEMS WITH THE PIT ON BOCHS.
+
 # Usage: ./run.sh [emulator]
 # Emulators:
 #   bochs
@@ -19,7 +21,9 @@ else
 fi
 
 if [ "$current" = "bochs" ]; then
-	bochs -f bochs_config.txt
+	echo 'There are problems with the PIT on Bochs (OS problem).'
+	echo 'Try running the OS in the VirtualBox or QEMU (./run.sh qemu).'
+#	bochs -f bochs_config.txt
 elif [ "$current" = "qemu" ]; then
 	qemu-system-i386 -fda disk/myos.img -boot a
 fi
