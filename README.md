@@ -1,7 +1,7 @@
 Basic Operating System.
 =======================
 
-**Status:** 1.1 in development.<br>
+**Status:** 1.0.1 (bugfix) in development.<br>
 **Version:** 1.0.
 
 This is the **Basic OS**. The purpose of this OS is shown in the title: &laquo;Create a base for operating systems&raquo;. 
