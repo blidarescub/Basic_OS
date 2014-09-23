@@ -40,6 +40,8 @@ First of all, you need to download the sources:
 SomeDir $ git clone https://github.com/exetwezz/Basic_OS
 ```
 
+:warning: I don't recommend you to get the sources this way. You should download the latest release at the [releases](https://github.com/ExeTwezz/Basic_OS/releases) section.
+
 ## Building the sources.
 
 Run these commands to build the downloaded sources:
