@@ -27,7 +27,7 @@ void init_timer_handler (void)
 void timer_handler (regs_irq_t *regs)
 {
 	++timer_ticks;
-	if (timer_ticks % 1000 == 0)
+	if (timer_ticks % 100 == 0)
 	{
 		++timer_seconds;
 		puts ("One second was passed.\n");
