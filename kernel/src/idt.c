@@ -25,8 +25,8 @@ void remap_pics (void)
 	outb (0x21, 0x01);
 	outb (0xA1, 0x01);
 
-	outb (0x21, 0x00);
-	outb (0xA1, 0x00);
+	outb (0x21, 0xFF);
+	outb (0xA1, 0xFF);
 }
 
 // Initialize and load the IDT.
@@ -87,6 +87,48 @@ void setup_idt (void)
 	set_idt_entry (47, (u32) &irq15);
 
 	load_idt ();
+}
+
+// Mask an IRQ.
+void mask_irq (u16 num)
+{
+	u16 port;
+	u8 value;
+
+	// Is this a Slave IRQ?
+	if (num >= 8)
+	{
+		port = 0xA1;
+		num -= 8;
+	}
+	else // No, Master?
+	{
+		port = 0x21;
+	}
+
+	value = inb (port) | (1 << num);
+	outb (port, value);
+}
+
+// Unmask an IRQ.
+void unmask_irq (u16 num)
+{
+	u16 port;
+	u8 value;
+
+	// Is this a Slave IRQ?
+	if (num >= 8)
+	{
+		port = 0xA1;
+		num -= 8;
+	}
+	else // No, Master?
+	{
+		port = 0x21;
+	}
+
+	value = inb (port) & ~(1 << num);
+	outb (port, value);
 }
 
 // Change an IDT entry.

@@ -2,11 +2,11 @@
 // The keyboard handler.
 
 #include <keyboard.h>
+#include <idt.h>
 #include <handlers.h>
 #include <inoutb.h>
-#include <types.h>
-
 #include <screen.h>
+#include <types.h>
 
 // The keyboard buffer.
 char keyboard_buffer[8];
@@ -15,7 +15,11 @@ int keyboard_buffer_pos;
 // Initialize the keyboard handler.
 void init_keyboard_handler (void)
 {
+	// Set the IRQ handler.
 	set_irq_handler (1, keyboard_handler);
+
+	// Unmask the IRQ.
+	unmask_irq (1);
 }
 
 // The keyboard handler itself.
