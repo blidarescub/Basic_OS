@@ -1,23 +1,7 @@
-Basic OS 1.0
-============
+Basic OS 1.0.1
+==============
 
-The version 1.0 of the **Basic OS** was released!
+This is a bugfix for the version **1.0**.
 
-This version contains:
-
-- [x] GDT.
-- [x] IDT.
-- [x] ISRs for the Exceptions.
-- [x] ISRs for two important IRQs:
-  - [x] The Keyboard ISR and handler.
-  - [x] The PIT (timer) ISR and handler.
-
-The hierarchy of the directories:
-
-```
-- bin/			    The compiled kernel (kernel.bin).
-- disk/			    The floppy image disks.
-- kernel/	    	The sources of the OS and the scripts to build them.
-  - src/	    	The source files (.c, .asm).
-  - include/		The header files (.h).
-```
+The bug was that the Bochs's PIT worked 10 times faster than the QEMU's PIT (as well as others').
+The solution was to edit the Bochs configuration file and add `clock: sync=realtime` (commit: [97d359b](https://github.com/ExeTwezz/Basic_OS/commit/97d359b6fcb223b61cb264d927e520557ca7a137)).
