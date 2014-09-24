@@ -5,7 +5,6 @@
 #include <idt.h>
 #include <handlers.h>
 #include <inoutb.h>
-#include <screen.h>
 
 // Time from the start of the OS.
 int timer_ticks;
@@ -34,7 +33,6 @@ void timer_handler (regs_irq_t *regs)
 	if (timer_ticks % 100 == 0)
 	{
 		++timer_seconds;
-		puts ("One second was passed.\n");
 	}
 
 }

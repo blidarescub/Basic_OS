@@ -5,7 +5,6 @@
 #include <idt.h>
 #include <handlers.h>
 #include <inoutb.h>
-#include <screen.h>
 #include <types.h>
 
 // The keyboard buffer.
@@ -31,17 +30,11 @@ void keyboard_handler (regs_irq_t *regs)
 	// Convert the scancode to a char.
 	char ch = scancode2char (scancode);
 
-	if (ch == 0) // Don't print unprintable characters.
-		return;
-
 	// Place the char in the buffer.
 	keyboard_buffer[keyboard_buffer_pos] = ch;
 	++keyboard_buffer_pos;
 	if (keyboard_buffer_pos >= 8)
 		keyboard_buffer_pos = 0;
-
-	// Print that char (optionally).
-	putch (ch);
 }
 
 // Convert the scancode to a char.
