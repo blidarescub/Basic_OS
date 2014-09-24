@@ -2,6 +2,7 @@
 // The C part of the kernel.
 
 #include <screen.h>
+#include <string.h>
 #include <idt.h>
 #include <keyboard.h>
 #include <timer.h>
@@ -16,5 +17,8 @@ void kernel_main (void)
 	init_keyboard_handler ();
 	init_timer_handler ();
 
-	puts ("Hello World");
+	puts ("The number is ");
+	char *str = "  ";
+	puts (itoa (-2, str, 10));
+	puts (" (should be -2).\n");
 }
