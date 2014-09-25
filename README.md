@@ -34,19 +34,15 @@ You must have them to continue.
 
 ## Getting the Basic OS sources.
 
-First of all, you need to download the sources:
-
-```
-SomeDir $ git clone https://github.com/exetwezz/Basic_OS
-```
-
-:warning: I don't recommend you to get the sources this way. You should download the latest release at the [releases](https://github.com/ExeTwezz/Basic_OS/releases) section.
+Then you need to download the sources by downloading the [latest release](https://github.com/ExeTwezz/Basic_OS/releases/latest) (select `.tar.gz`).
 
 ## Building the sources.
 
-Run these commands to build the downloaded sources:
+Run these commands to unarchive and build the OS:
 
 ```
+SomeDir $ tar -xzvf DOWNLOADED_ARCHIVE.tar.gz
+SomeDir $ mv Basic_OS* Basic_OS
 SomeDir $ cd Basic_OS
 Basic_OS $ cd kernel
 kernel $ make
@@ -55,8 +51,8 @@ kernel $ make
 Running.
 ========
 
-Run in the Bochs: `$ ./run.sh` or `$ ./run.sh bochs`
-Run in the QEMU: `$ ./run.sh qemu`
+Run in the Bochs: `$ ./run.sh` or `$ ./run.sh bochs`.
+Run in the QEMU: `$ ./run.sh qemu`.
 
 ## Installing an emulator.
 
@@ -75,17 +71,10 @@ $ sudo apt-get install qemu-system-i386
 Need help?
 ==========
 
-If you're a beginner in the OS development, then you're not in the right place. You should read the tutorials first.
+If you're a beginner in the OS development, I don't recommend you to begin here. You should read the tutorials first.
 I recommend to begin at http://wiki.osdev.org/Tutorials.
 
-If you need help with the Basic OS, you can [create an issue](https://github.com/ExeTwezz/Basic_OS/issues/new).
-
-Authors.
-========
-
-Since it is only a base for other OSes, it is easy to write alone.
-
-* Yuri Tretyakov ([@exetwezz](https://github.com/ExeTwezz))
+If you need a help with the Basic OS, you can [create an issue](https://github.com/ExeTwezz/Basic_OS/issues/new).
 
 License.
 ========
