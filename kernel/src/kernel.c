@@ -5,10 +5,10 @@
 #include <string.h>
 #include <idt.h>
 #include <keyboard.h>
-#include <timer.h>
+#include <types.h>
 
 // The C kernel main.
-void kernel_main (void)
+void kernel_main (mb_info_header_t *mb_info_header)
 {
 	init_screen ();
 	clear_screen ();
@@ -17,8 +17,5 @@ void kernel_main (void)
 	init_keyboard_handler ();
 	init_timer_handler ();
 
-	puts ("The number is ");
-	char *str = "  ";
-	puts (itoa (-2, str, 10));
-	puts (" (should be -2).\n");
+	puts ("Hello World");
 }
