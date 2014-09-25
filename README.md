@@ -2,7 +2,7 @@ Basic Operating System.
 =======================
 
 **Status:** 1.1 in development.<br>
-**Version:** 1.0.1.
+**Version:** 1.0.1 (http://semver.org/).
 
 This is the **Basic OS**. The purpose of this OS is shown in the title: &laquo;Create a base for operating systems&raquo;. 
 It will contain the following things:
