@@ -8,6 +8,5 @@ What is left?
 
 Here is a TODO list for the version **1.1**.
 
+- [ ] Paging.
 - [ ] Memory allocations.
-
-**Note:** TODO list may be different from the actual changes (P.S. maybe I will add a changelog, but not in the 1.1, since I don't remember what I did :D).
