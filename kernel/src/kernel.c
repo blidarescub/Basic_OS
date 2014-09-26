@@ -5,10 +5,12 @@
 #include <string.h>
 #include <idt.h>
 #include <keyboard.h>
+#include <timer.h>
+#include <paging.h>
 #include <types.h>
 
 // The C kernel main.
-void kernel_main (mb_info_header_t *mb_info_header)
+void kernel_main ()
 {
 	init_screen ();
 	clear_screen ();
@@ -16,6 +18,8 @@ void kernel_main (mb_info_header_t *mb_info_header)
 	setup_idt ();
 	init_keyboard_handler ();
 	init_timer_handler ();
+
+	init_paging ();
 
 	puts ("Hello World");
 }
