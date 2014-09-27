@@ -37,4 +37,7 @@ void init_paging (void)
 	// into the CR3.
 	write_cr0 ((u32) (read_cr0 () | 0x80000000)); // Set the Paging bit
 	// (bit 31) of the CR0.
+
+	// Update segment registers.
+	update_segregs ();
 }

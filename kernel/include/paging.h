@@ -22,4 +22,7 @@ extern void write_cr0 (u32);
 extern u32  read_cr3 (void);
 extern void write_cr3 (u32);
 
+/* kernel_ll.asm */
+extern void update_segregs (void);
+
 #endif /* !PAGING_H */

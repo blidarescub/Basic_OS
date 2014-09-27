@@ -20,13 +20,7 @@ kernel_ll:
 global load_gdt
 load_gdt:
 	lgdt [gdt.ptr]
-	mov ax, 0x10
-	mov ds, ax
-	mov es, ax
-	mov fs, ax
-	mov gs, ax
-	jmp 0x08:.done
-	.done:
+	call update_segregs
 	ret
 
 	; The GDT itself.
@@ -52,6 +46,20 @@ load_gdt:
 		.ptr:
 			dw gdt - .end - 1
 			dd gdt
+
+; Update segment registers.
+global update_segregs
+update_segregs:
+	push ax
+	mov ax, 0x10
+	mov ds, ax
+	mov es, ax
+	mov fs, ax
+	mov gs, ax
+	jmp 0x08:.cs
+	.cs:
+	pop ax
+	ret
 
 ; Load the IDT.
 global load_idt
