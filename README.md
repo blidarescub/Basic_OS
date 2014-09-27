@@ -4,19 +4,10 @@ Basic Operating System.
 **Status:** 1.1 in development.<br>
 **Version:** 1.0.1 (http://semver.org/).
 
-This is the **Basic OS**. The purpose of this OS is shown in the title: &laquo;Create a base for operating systems&raquo;. 
-It will contain the following things:
+This is the **Basic OS**. The goal of the OS is to show programmers what does a simple OS look like (its features).
+It contain things such as GDT, IDT, paging, and others.
 
-```
-* GDT.
-* IDT.
-* Exceptions handler, IRQs handler.
-* Keyboard handler.
-* PIT (timer) handler.
-* Memory allocations.
-```
-
-Also read [GOAL_TODO.md](https://github.com/ExeTwezz/Basic_OS/blob/master/GOAL_TODO.md) to see the goal of the Basic OS and what things are implemented and what are not.
+Also read [GOAL_TODO.md](https://github.com/ExeTwezz/Basic_OS/blob/master/GOAL_TODO.md) to see the goal of the Basic OS and what things are implemented and what are not yet.
 
 Building.
 =========
