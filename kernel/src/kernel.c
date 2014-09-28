@@ -2,11 +2,14 @@
 // The C part of the kernel.
 
 #include <screen.h>
-#include <string.h>
+
 #include <idt.h>
 #include <keyboard.h>
 #include <timer.h>
+
 #include <paging.h>
+#include <mm.h>
+
 #include <types.h>
 
 // The C kernel main.
@@ -20,6 +23,11 @@ void kernel_main ()
 	init_timer_handler ();
 
 	init_paging ();
+	init_mm ();
 
-	puts ("Hello World");
+	mm_mark_as_used (0);
+
+//	puts ("Hello World!\n");
+
+	mm_alloc_pages (4);
 }
