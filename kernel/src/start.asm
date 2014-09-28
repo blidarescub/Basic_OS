@@ -38,12 +38,6 @@ skip_header:
 	extern kernel_ll		; kernel.asm
 	call kernel_ll
 
-; Halt the CPU.
-global halt
-halt:
-	hlt
-	jmp halt
-
 ; The stack.
 section .bss
 resb 8192

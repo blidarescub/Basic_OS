@@ -14,7 +14,15 @@ kernel_ll:
 	extern kernel_main		; kernel.c
 	call kernel_main
 
+	call halt			; Halt the CPU.
 	ret
+
+; Halt the CPU.
+global halt
+halt:
+	cli
+	hlt
+	jmp halt
 
 ; Load the GDT.
 global load_gdt
