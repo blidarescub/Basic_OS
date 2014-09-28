@@ -1,8 +1,8 @@
 Basic Operating System.
 =======================
 
-**Status:** 1.1 in development.<br>
-**Version:** 1.0.1 (http://semver.org/).
+**Status:** 1.2 in development.<br>
+**Version:** 1.1 (http://semver.org/).
 
 This is the **Basic OS**. The goal of the OS is to show programmers what does a simple OS look like (its features).
 It contain things such as GDT, IDT, paging, and others.
