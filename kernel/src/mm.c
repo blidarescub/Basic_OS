@@ -89,15 +89,16 @@ void *mm_alloc_pages (int count)
 		halt ();
 	}
 
-//	char str[32];
-//	puts ("mm_alloc(): success.\n");
-//	puts ("f_size = ");
-//	puts (itoa (f_size, str, 10));
-//	puts ("\nf_superpage = ");
-//	puts (itoa (f_superpage, str, 10));
-//	puts ("\nf_page = ");
-//	puts (itoa (f_page, str, 10));
-//	halt ();
+	/*
+	char str[32];
+	puts ("f_size = ");
+	puts (itoa (f_size, str, 10));
+	puts ("\nf_superpage = ");
+	puts (itoa (f_superpage, str, 10));
+	puts ("\nf_page = ");
+	puts (itoa (f_page, str, 10));
+	puts ("\n");
+	*/
 
 	// Mark the pages as used.
 	int start = (f_superpage << 5) | f_page;
@@ -110,6 +111,17 @@ void *mm_alloc_pages (int count)
 	return (void *) start;
 }
 
+// Mark pages as free.
+void mm_dalloc_pages (void *addr, int count)
+{
+	int page = (int) addr >> 4;
+	int i;
+	for (i = page; i < (page + count); ++i)
+	{
+		mm_mark_as_free (i);
+	}
+}
+
 // Mark page as used.
 void mm_mark_as_used (int page)
 {
@@ -117,4 +129,13 @@ void mm_mark_as_used (int page)
 	int superpage = mb / 4;
 
 	mm_bitmap[superpage] |= (1 << page);
+}
+
+// Mark page as free.
+void mm_mark_as_free (int page)
+{
+	int mb = page >> 5;
+	int superpage = mb / 4;
+
+	mm_bitmap[superpage] &= ~(1 << page);
 }

@@ -11,6 +11,7 @@
 /* mm.c */
 void init_mm (void);
 void *mm_alloc_pages (int);
+void mm_dalloc_pages (void *, int);
 void mm_mark_as_used (int);
 void mm_mark_as_free (int);
 

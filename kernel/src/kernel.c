@@ -40,4 +40,8 @@ void kernel_main ()
 	str[11] = '!';
 	str[12] = 0;
 	puts (str);
+	puts ("\n");
+
+	mm_dalloc_pages (str, 1);
+	mm_alloc_pages (1);
 }
