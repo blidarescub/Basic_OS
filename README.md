@@ -7,7 +7,7 @@ Basic Operating System.
 This is the **Basic OS**. The goal of the OS is to show programmers what does a simple OS look like (its features).
 It contain things such as GDT, IDT, paging, and others.
 
-Also read [GOAL_TODO.md](https://github.com/ExeTwezz/Basic_OS/blob/master/GOAL_TODO.md) to see the goal of the Basic OS and what things are implemented and what are not yet.
+Also read [TODO.md](https://github.com/ExeTwezz/Basic_OS/blob/master/TODO.md) to see the goal of the Basic OS and what things are implemented and what are not yet.
 
 Building.
 =========
