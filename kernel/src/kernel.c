@@ -25,9 +25,19 @@ void kernel_main ()
 	init_paging ();
 	init_mm ();
 
-	mm_mark_as_used (0);
-
-//	puts ("Hello World!\n");
-
-	mm_alloc_pages (4);
+	char *str = (char *) mm_alloc_pages (1);
+	str[0] = 'H';
+	str[1] = 'e';
+	str[2] = 'l';
+	str[3] = 'l';
+	str[4] = 'o';
+	str[5] = ' ';
+	str[6] = 'W';
+	str[7] = 'o';
+	str[8] = 'r';
+	str[9] = 'l';
+	str[10] = 'd';
+	str[11] = '!';
+	str[12] = 0;
+	puts (str);
 }

@@ -89,15 +89,25 @@ void *mm_alloc_pages (int count)
 		halt ();
 	}
 
-	char str[32];
-	puts ("mm_alloc(): success.\n");
-	puts ("f_size = ");
-	puts (itoa (f_size, str, 10));
-	puts ("\nf_superpage = ");
-	puts (itoa (f_superpage, str, 10));
-	puts ("\nf_page = ");
-	puts (itoa (f_page, str, 10));
-	halt ();
+//	char str[32];
+//	puts ("mm_alloc(): success.\n");
+//	puts ("f_size = ");
+//	puts (itoa (f_size, str, 10));
+//	puts ("\nf_superpage = ");
+//	puts (itoa (f_superpage, str, 10));
+//	puts ("\nf_page = ");
+//	puts (itoa (f_page, str, 10));
+//	halt ();
+
+	// Mark the pages as used.
+	int start = (f_superpage << 5) | f_page;
+	for (i = start; i < (start + f_size); ++i)
+	{
+		mm_mark_as_used (i);
+	}
+
+	// Return the address of the first page.
+	return (void *) start;
 }
 
 // Mark page as used.
