@@ -6,9 +6,9 @@
 
 /*
  * Page Directory (a table that holds info about Page Tables) is
- *  located from 0x9C000 to 0x9D000.
- * Page Table (a table that holds info about pages itself) is
- *  located from 0x9D000 to 0x9E000.
+ *  located from 0x9C000 to 0x9D000 (4 kB).
+ * Page Tables (tables that hold info about pages itself) are
+ *  located from 0x9D000 to 0x9E000 (4 kB).
  */
 
 #include <types.h>
