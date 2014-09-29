@@ -8,8 +8,7 @@
  * Based on http://www.osdever.net/tutorials/view/cottontail-memory-management-a-system-for-allocation-deallocation-accounting/.
  */
 
-/* mm.c */
-void init_mm (void);
+/* p_mm.c */
 void *mm_alloc_pages (int);
 void mm_dalloc_pages (void *, int);
 void mm_mark_as_used (int);

@@ -1,21 +1,15 @@
 // Basic Operating System.
-// The Memory Manager.
+// The Physical Memory Manager.
 
-#include <mm.h>
+#include <p_mm.h>
 #include <screen.h>
 #include <string.h>
 #include <types.h>
 
 // The bitmap.
-u32 mm_bitmap[32768];
+u32 p_mm_bitmap[32768];
 
-// Initialize the MM.
-void init_mm (void)
-{
-	// Do nothing lol.
-}
-
-// Allocate page(s).
+// Allocate physical page(s).
 void *mm_alloc_pages (int count)
 {
 	if (count < 0)
@@ -33,12 +27,12 @@ void *mm_alloc_pages (int count)
 	// one Page Table (superpage = page table = 4 MB).
 	{
 		// Is the whole superpage used?
-		if (mm_bitmap[i] == 0xFFFFFFFF)
+		if (p_mm_bitmap[i] == 0xFFFFFFFF)
 		{
 			continue; // Next superpage.
 		}
 		// Or it's free?
-		else if (mm_bitmap[i] == 0x00000000)
+		else if (p_mm_bitmap[i] == 0x00000000)
 		{
 			if (f_size == 0)
 			{
@@ -56,7 +50,7 @@ void *mm_alloc_pages (int count)
 			int j;
 			for (j = 0; j < 32; ++j)
 			{
-				if (!(mm_bitmap[i] & (1 << j)))
+				if (!(p_mm_bitmap[i] & (1 << j)))
 				{
 					if (f_size == 0)
 					{
@@ -122,20 +116,20 @@ void mm_dalloc_pages (void *addr, int count)
 	}
 }
 
-// Mark page as used.
+// Mark a page as used.
 void mm_mark_as_used (int page)
 {
 	int mb = page >> 5;
 	int superpage = mb / 4;
 
-	mm_bitmap[superpage] |= (1 << page);
+	p_mm_bitmap[superpage] |= (1 << page);
 }
 
-// Mark page as free.
+// Mark a page as free.
 void mm_mark_as_free (int page)
 {
 	int mb = page >> 5;
 	int superpage = mb / 4;
 
-	mm_bitmap[superpage] &= ~(1 << page);
+	p_mm_bitmap[superpage] &= ~(1 << page);
 }

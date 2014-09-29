@@ -8,7 +8,6 @@
 #include <timer.h>
 
 #include <paging.h>
-#include <mm.h>
 
 #include <types.h>
 
@@ -23,7 +22,6 @@ void kernel_main ()
 	init_timer_handler ();
 
 	init_paging ();
-	init_mm ();
 
 	char *str = (char *) mm_alloc_pages (1);
 	str[0] = 'H';
