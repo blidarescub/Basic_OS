@@ -14,7 +14,7 @@ void *p_mm_alloc_pages (int count)
 {
 	if (count < 0)
 	{
-		puts ("Memory Manager: Error: Trying to allocate less than 0 pages.");
+		puts ("Physical Memory Manager: error: trying to allocate less than 0 physical pages.");
 		halt ();
 	}
 
