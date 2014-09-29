@@ -1,7 +1,7 @@
 What is left?
 =============
 
-Here is a TODO list for the version **1.1**.
+Here is a TODO list for the version **1.2**.
 
-- [x] Implement paging.
-- [x] Pages allocation.
+- [ ] Allocator for virtual address space (virtual allocator).
+- [ ] Dynamic allocator.
