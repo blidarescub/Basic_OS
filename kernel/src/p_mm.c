@@ -1,5 +1,5 @@
 // Basic Operating System.
-// The Physical Memory Manager.
+// Physical Memory Manager.
 
 #include <p_mm.h>
 #include <screen.h>
@@ -10,7 +10,7 @@
 u32 p_mm_bitmap[32768];
 
 // Allocate physical page(s).
-void *mm_alloc_pages (int count)
+void *p_mm_alloc_pages (int count)
 {
 	if (count < 0)
 	{
@@ -98,7 +98,7 @@ void *mm_alloc_pages (int count)
 	int start = (f_superpage << 5) | f_page;
 	for (i = start; i < (start + f_size); ++i)
 	{
-		mm_mark_as_used (i);
+		p_mm_mark_as_used (i);
 	}
 
 	// Return the address of the first page.
@@ -106,18 +106,18 @@ void *mm_alloc_pages (int count)
 }
 
 // Mark pages as free.
-void mm_dalloc_pages (void *addr, int count)
+void p_mm_dalloc_pages (void *addr, int count)
 {
 	int page = (int) addr >> 4;
 	int i;
 	for (i = page; i < (page + count); ++i)
 	{
-		mm_mark_as_free (i);
+		p_mm_mark_as_free (i);
 	}
 }
 
 // Mark a page as used.
-void mm_mark_as_used (int page)
+void p_mm_mark_as_used (int page)
 {
 	int mb = page >> 5;
 	int superpage = mb / 4;
@@ -126,7 +126,7 @@ void mm_mark_as_used (int page)
 }
 
 // Mark a page as free.
-void mm_mark_as_free (int page)
+void p_mm_mark_as_free (int page)
 {
 	int mb = page >> 5;
 	int superpage = mb / 4;

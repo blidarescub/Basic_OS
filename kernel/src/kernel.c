@@ -8,6 +8,7 @@
 #include <timer.h>
 
 #include <paging.h>
+#include <p_mm.h>
 
 #include <types.h>
 
@@ -23,7 +24,7 @@ void kernel_main ()
 
 	init_paging ();
 
-	char *str = (char *) mm_alloc_pages (1);
+	char *str = (char *) p_mm_alloc_pages (1);
 	str[0] = 'H';
 	str[1] = 'e';
 	str[2] = 'l';
@@ -40,6 +41,6 @@ void kernel_main ()
 	puts (str);
 	puts ("\n");
 
-	mm_dalloc_pages (str, 1);
-	mm_alloc_pages (1);
+	p_mm_dalloc_pages (str, 1);
+	p_mm_alloc_pages (1);
 }
