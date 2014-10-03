@@ -5,10 +5,9 @@ Basic Operating System.
 **Version:** 1.1 (http://semver.org/).<br>
 **Website:** http://exetwezz.8nio.com/ (loads long).
 
-This is the **Basic OS**. The goal of the OS is to show programmers what does a simple OS look like (its features).
-It contain things such as GDT, IDT, paging, and others.
+This is the **Basic OS**. The goal of the OS is to show programmers what does a simple OS look like and show its main features.
 
-Also read [TODO.md](https://github.com/ExeTwezz/Basic_OS/blob/master/TODO.md) to see the goal of the Basic OS and what things are implemented and what are not yet.
+To see what things will be in the next release, read [TODO.md](https://github.com/ExeTwezz/Basic_OS/blob/master/TODO.md).
 
 Building.
 =========
