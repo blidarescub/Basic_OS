@@ -3,6 +3,7 @@ Basic Operating System.
 
 **Status:** 1.2 in development.<br>
 **Version:** 1.1 (http://semver.org/).
+**Website:** http://exetwezz.8nio.com/ (loads long).
 
 This is the **Basic OS**. The goal of the OS is to show programmers what does a simple OS look like (its features).
 It contain things such as GDT, IDT, paging, and others.
