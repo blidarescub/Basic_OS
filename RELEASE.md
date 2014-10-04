@@ -1,5 +1,4 @@
-Basic OS 1.1
-============
+Basic OS 1.0.1
+==============
 
-In this version I've implemented Paging and Pages allocation.<br>
-Also visit http://exetwezz.8nio.com/ (the website).
+This is a bugfix for version 1.0.

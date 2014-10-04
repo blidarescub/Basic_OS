@@ -1,13 +1,15 @@
 Basic Operating System.
 =======================
 
-**Status:** 1.2 in development.<br>
-**Version:** 1.1 (http://semver.org/).
+**Status:** 1.1 in development.<br>
+**Version:** 1.0.1 (http://semver.org/).
 
-This is the **Basic OS**. The goal of the OS is to show programmers what does a simple OS look like (its features).
-It contain things such as GDT, IDT, paging, and others.
+This is the **Basic OS**. The goal of the OS is to show programmers what does
+a simple OS look like (its features).
 
-Also read [TODO.md](https://github.com/ExeTwezz/Basic_OS/blob/master/TODO.md) to see the goal of the Basic OS and what things are implemented and what are not yet.
+Also read [TODO.md](https://github.com/ExeTwezz/Basic_OS/blob/master/TODO.md)
+to see the goal of the Basic OS and what things are implemented and what are
+not yet.
 
 Building.
 =========
@@ -25,7 +27,9 @@ You must have them to continue.
 
 ## Getting the Basic OS sources.
 
-Then you need to download the sources by downloading the [latest release](https://github.com/ExeTwezz/Basic_OS/releases/latest) (select `.tar.gz`).
+Then you need to download the sources by downloading the
+[latest release](https://github.com/ExeTwezz/Basic_OS/releases/latest)
+(select `.tar.gz`).
 
 ## Building the sources.
 
@@ -62,12 +66,15 @@ $ sudo apt-get install qemu-system-i386
 Need help?
 ==========
 
-If you're a beginner in the OS development, I don't recommend you to begin here. You should read the tutorials first.
-I recommend to begin at http://wiki.osdev.org/Tutorials.
+If you're a beginner in the OS development, I don't recommend you to begin
+here. You should read the tutorials first. I recommend to begin at
+http://www.osdever.net/ and http://wiki.osdev.org/Tutorials.
 
-If you need a help with the Basic OS, you can [create an issue](https://github.com/ExeTwezz/Basic_OS/issues/new).
+If you need a help with the Basic OS, you can
+[create an issue](https://github.com/ExeTwezz/Basic_OS/issues/new).
 
 License.
 ========
 
-The sources of the Basic OS are published under the [MIT License](http://choosealicense.com/licenses/mit/).
+The sources of the Basic OS are published under the
+[MIT License](http://choosealicense.com/licenses/mit/).
