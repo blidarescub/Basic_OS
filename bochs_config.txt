@@ -1,0 +1,10 @@
+# Physical memory size (in megabytes).
+megs: 64
+
+cpu: ips=15000000
+clock: sync=slowdown, time0=local
+
+# Boot from the CD-ROM image.
+ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
+ata0-master: type=cdrom, path=disk/myos.iso, status=inserted
+boot: cdrom
