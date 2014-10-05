@@ -47,22 +47,8 @@ kernel $ make
 Running.
 ========
 
-Run in the Bochs: `$ ./run.sh` or `$ ./run.sh bochs`.
-Run in the QEMU: `$ ./run.sh qemu`.
-
-## Installing an emulator.
-
-### Bochs.
-
-```
-$ sudo apt-get install bochs bochs-sdl
-```
-
-### QEMU.
-
-```
-$ sudo apt-get install qemu-system-i386
-```
+There are some errors with the PIT on Bochs and QEMU. You can create a new virtual machine for the Basic OS in the
+VirtualBox, for example.
 
 Need help?
 ==========
