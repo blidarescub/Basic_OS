@@ -11,6 +11,8 @@ kernel_ll:
 	cli
 	call load_gdt			; Load the GDT.
 
+	push ebx
+
 	extern kernel_main		; kernel.c
 	call kernel_main
 
@@ -20,7 +22,6 @@ kernel_ll:
 ; Halt the CPU.
 global halt
 halt:
-	cli
 	hlt
 	jmp halt
 

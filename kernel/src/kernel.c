@@ -2,18 +2,19 @@
 // The C part of the kernel.
 
 #include <screen.h>
+#include <string.h>
 
 #include <idt.h>
 #include <keyboard.h>
 #include <timer.h>
 
 #include <paging.h>
-#include <p_mm.h>
+#include <mm.h>
 
 #include <types.h>
 
 // The C kernel main.
-void kernel_main ()
+void kernel_main (mb_info_t *mb_info)
 {
 	init_screen ();
 	clear_screen ();
@@ -23,24 +24,14 @@ void kernel_main ()
 	init_timer_handler ();
 
 	init_paging ();
+	init_mm (mb_info->mem_upper * 1024); // GRUB gives us the memory size in
+	// kilobytes. We need to convert it bytes, so multiply it by 1024.
 
-	char *str = (char *) p_mm_alloc_pages (1);
-	str[0] = 'H';
-	str[1] = 'e';
-	str[2] = 'l';
-	str[3] = 'l';
-	str[4] = 'o';
-	str[5] = ' ';
-	str[6] = 'W';
-	str[7] = 'o';
-	str[8] = 'r';
-	str[9] = 'l';
-	str[10] = 'd';
-	str[11] = '!';
-	str[12] = 0;
-	puts (str);
-	puts ("\n");
-
-	p_mm_dalloc_pages (str, 1);
-	p_mm_alloc_pages (1);
+	clear_screen ();
+	puts ("Hello World!\n");
+	puts ("This is the **Basic OS** and I want to tell you the changes ");
+	puts ("in the version 1.2!\n");
+	puts ("I've only added a memory manager (allocates and frees pages).\n");
+	puts ("Since I was confused with the memory manager when I was writing it, it was ");
+	puts ("hard\nto write it. So in the release 1.2 the basic memory manager was added!");
 }
