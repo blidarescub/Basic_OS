@@ -1,45 +1,29 @@
 #!/bin/bash
 
-# This script copies the `bin/kernel.bin' to the floppy disk image.
+# This scripts creates a GRUB CD-ROM disk image.
 
-printf 'Requesting the root privileges... '
-sudo echo 'Done.' || exit 1
-
-PREFIX=./
-
-if [ ! "$1" = "" ]; then
-	PREFIX="$1"
+PREFIX=$1
+if [ "$1" = "" ]; then
+	PREFIX="./"
 fi
 
-if [ -e ${PREFIX}disk/myos.img ]; then
-	rm ${PREFIX}disk/myos.img || exit 1
+if [ -e ${PREFIX}disk/isofiles ]; then
+	rm -r ${PREFIX}disk/isofiles || exit 1
 fi
 
-if [ -e ${PREFIX}disk/myos ]; then
-	rmdir ${PREFIX}disk/myos || exit 1
-fi
+printf 'Creating isofiles... '
+mkdir ${PREFIX}disk/isofiles || exit 1
+echo 'Done.'
 
-printf 'Creating a temporary directory...'
-mkdir ${PREFIX}disk/myos || exit 1
-echo ' Done.'
+printf 'Creating directories... '
+mkdir -p ${PREFIX}disk/isofiles/boot/grub || exit 1
+echo 'Done.'
 
-printf 'Creating a disk image...'
-cp ${PREFIX}disk/grub.img ${PREFIX}disk/myos.img || exit 1
-echo ' Done.'
+printf 'Copying the files... '
+cp ${PREFIX}disk/grub.cfg ${PREFIX}disk/isofiles/boot/grub || exit 1
+cp ${PREFIX}bin/kernel.bin ${PREFIX}disk/isofiles/boot || exit 1
+echo 'Done.'
 
-printf 'Mounting the image...'
-sudo mount -t vfat ${PREFIX}disk/myos.img ${PREFIX}disk/myos || exit 1
-echo ' Done.'
-
-printf 'Copying the kernel...'
-sudo cp ${PREFIX}bin/kernel.bin ${PREFIX}disk/myos/boot || exit 1
-echo ' Done.'
-
-sleep 0.1
-printf 'Unmounting the image...'
-sudo umount ${PREFIX}disk/myos || exit 1
-echo ' Done.'
-
-printf 'Deleting the temporary directory...'
-rmdir ${PREFIX}disk/myos || exit 1
-echo ' Done.'
+printf 'Creating a CD-ROM from isofiles... '
+grub-mkrescue -o ${PREFIX}disk/myos.iso ${PREFIX}disk/isofiles || exit 1
+echo 'Done.'

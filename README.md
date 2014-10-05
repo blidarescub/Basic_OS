@@ -21,6 +21,7 @@ To get and build the Basic OS, you need the following packages to be installed:
 * clang
 * nasm
 * binutils
+* 
 ```
 
 You must have them to continue.
