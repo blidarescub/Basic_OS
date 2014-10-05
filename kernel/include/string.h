@@ -6,5 +6,7 @@
 
 /* string.c */
 char *itoa (int, char *, int);
+void strcpy (char *, const char *);
+void strncpy (char *, const char *, unsigned int);
 
 #endif /* !STRING_H */
