@@ -1,3 +1,4 @@
 *.o
 *.bin
-myos.img
+myos.iso
+isofiles
