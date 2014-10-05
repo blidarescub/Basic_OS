@@ -9,6 +9,7 @@
 
 // The stack (the stack of free physical pages) pointer.
 int *stack_ptr;
+int *initial_stack_ptr;
 
 // Push an address of the free physical page onto the stack.
 void push_physical_page (int address)
@@ -20,6 +21,12 @@ void push_physical_page (int address)
 // Pop an address of the free physical page from the stack.
 int pop_physical_page (void)
 {
+    if (stack_ptr == initial_stack_ptr)
+    {
+        puts ("No free physical pages left.\n");
+        puts ("Halting.");
+        halt ();
+    }
     int address = *stack_ptr;
     stack_ptr += 4;
     return address;
@@ -31,6 +38,7 @@ void init_mm (int physical_memory_size)
     puts ("Initializing the memory manager\n");
     int stack_size = 640;
     stack_ptr = (int *) 0x00000 + stack_size;
+    initial_stack_ptr = stack_ptr;
 
     puts (" - Physical memory size: ");
     char str[32];
