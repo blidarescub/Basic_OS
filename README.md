@@ -47,8 +47,8 @@ kernel $ make
 Running.
 ========
 
-There are some errors with the PIT on Bochs and QEMU. You can create a new virtual machine for the Basic OS in the
-VirtualBox, for example.
+Since the PIT on Bochs and QEMU is fast, they are not recommended to use to run the Basic OS. You can create a new
+virtual machine for the Basic OS in the VirtualBox, for example.
 
 Need help?
 ==========
