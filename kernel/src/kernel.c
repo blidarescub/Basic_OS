@@ -29,9 +29,7 @@ void kernel_main (mb_info_t *mb_info)
 
 	clear_screen ();
 	puts ("Hello World!\n");
-	puts ("This is the **Basic OS** and I want to tell you the changes ");
+	puts ("This is the *Basic OS* and I want to tell you the changes ");
 	puts ("in the version 1.2!\n");
-	puts ("I've only added a memory manager (allocates and frees pages).\n");
-	puts ("Since I was confused with the memory manager when I was writing it, it was ");
-	puts ("hard\nto write it. So in the release 1.2 the basic memory manager was added!");
+	puts (" - Memory manager (allocates and frees pages).\n");
 }
