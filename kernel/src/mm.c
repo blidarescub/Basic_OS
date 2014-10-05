@@ -1,6 +1,5 @@
 // Basic Operating System.
 // Memory Manager.
-// TODO: upgrade `free_pages`.
 
 #include <mm.h>
 #include <screen.h>
