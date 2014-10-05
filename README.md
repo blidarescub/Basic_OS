@@ -47,8 +47,15 @@ kernel $ make
 Running.
 ========
 
-Since the PIT on Bochs and QEMU is fast, they are not recommended to use to run the Basic OS. You can create a new
-virtual machine for the Basic OS in the VirtualBox, for example.
+To run the compiled Basic OS kernel, run the `./run.sh` script:
+
+```
+$ ./run.sh
+```
+
+By default, it starts Bochs. However, it can start QEMU: `./run.sh qemu`.<br>
+You can add a few commands that start another emulator just by editing the
+script itself.
 
 Need help?
 ==========
@@ -57,7 +64,7 @@ If you're a beginner in the OS development, I don't recommend you to begin
 here. You should read the tutorials first. I recommend to begin at
 http://www.osdever.net/ and http://wiki.osdev.org/Tutorials.
 
-If you need a help with the Basic OS, you can
+If you need help with the Basic OS, you can
 [create an issue](https://github.com/ExeTwezz/Basic_OS/issues/new).
 
 License.
