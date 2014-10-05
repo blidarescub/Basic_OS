@@ -81,7 +81,7 @@ int alloc_pages (void *start_at, int count)
     if ((page_table & 1) == 0)
     {
         // TODO: Create a new page table and create an entry in the page
-        // directory for it.
+        // directory for it (also call invlpg()).
         puts ("The page table is not present.\n");
         halt ();
     }
