@@ -121,9 +121,21 @@ void init_mm (mb_info_t *mb_info)
     */
 
     int i;
-    for (i = 0x0; i < lower_memory_size; i += 4096)
+    for (i = 0; i < lower_memory_size; i += 4096)
     {
+        // Push the address of the free physical page onto the stack of free
+        // physical pages.
         push_physical_page (i);
+
+        // Mark the page as used in the virtual address space.
+        // P.S. In our OS, virtual addresses of the kernel are mapped to the
+        // same physical addresses, so we don't care about the consequences
+        // (e.g. if someone mapped a virtual page to one of the free physical
+        // pages, it's his problems :D).
+        alloc_pages ((void *) i, 1); // So, we don't need to translate
+        // physical address to a virtual one.
+        // Also, it's not fast to allocate each page separately, but I'd rewrite
+        // it later ;).
     }
 }
 
