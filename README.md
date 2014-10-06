@@ -20,7 +20,7 @@ To get and build the Basic OS, you need the following packages to be installed:
 * clang			# C compiler.
 * nasm			# Netwide Assembler.
 * binutils		# Contains `ld`, the linker.
-* grub2			# Contains `grub-mkrescue`, an utility that creates GRUB .iso image.
+* grub2			# Contains `grub-mkrescue`, an utility that creates GRUB2 .iso image.
 * xorriso		# Needed for `grub-mkrescue`.
 ```
 
