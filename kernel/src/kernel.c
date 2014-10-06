@@ -1,16 +1,21 @@
 // Basic Operating System.
 // The C part of the kernel.
 
+/* Output to the screen. */
 #include <screen.h>
-#include <string.h>
+#include <string.h> // Not related, but is used to convert numbers and print
+// them on the screen.
 
+/* Interrupts. */
 #include <idt.h>
 #include <keyboard.h>
 #include <timer.h>
 
+/* Memory. */
 #include <paging.h>
 #include <mm.h>
 
+/* Other. */
 #include <types.h>
 
 // The C kernel main.
@@ -29,7 +34,4 @@ void kernel_main (mb_info_t *mb_info)
 
 	clear_screen ();
 	puts ("Hello World!\n");
-	puts ("This is the *Basic OS* and I want to tell you the changes ");
-	puts ("in the version 1.2!\n");
-	puts (" - Memory manager (allocates and frees pages).\n");
 }
