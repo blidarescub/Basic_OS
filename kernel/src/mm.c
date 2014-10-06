@@ -10,6 +10,64 @@
 int *stack_ptr;
 int *initial_stack_ptr;
 
+// Map a virtual page to a physical one.
+int map_page (int virtual, int physical)
+{
+    // Are the addresses 4KB-aligned?
+    if (physical & 0xFFF)
+    {
+        // The physical one is not aligned, align it.
+        physical &= 0xFFFFF000;
+    }
+    if (virtual & 0xFFF)
+    {
+        // The virtual one is not aligned, align it.
+        virtual &= 0xFFFFF000;
+    }
+
+    // Get the physical address of the current page directory.
+    u32 *page_dir_addr = (u32 *) read_cr3 ();
+    u32 *page_dir_entry_addr = page_dir_addr + (virtual >> 22);
+
+    // Calculate the address of a page table that contains an entry for the
+    // specified virtual page.
+    u32 *page_table_addr = (u32 *) (*page_dir_entry_addr >> 12 << 12);
+
+    // Is the page table not present?
+    if ((int) *page_table_addr == 0)
+    {
+        // TODO: Create a new page table, create an entry in the page
+        // directory for it (also call invlpg()), and something else.
+        puts ("The page table is not present.");
+        halt ();
+    }
+
+    // Calculate the address of that entry.
+    u32 *page_table_entry_addr = page_table_addr + ((virtual >> 12) & 0x3FF);
+    const u32 page_table_entry = *page_table_entry_addr; // Just a copy.
+
+    /*
+    char str[32];
+    puts ("Page directory: 0x");
+    puts (itoa ((int) page_dir_addr, str, 16));
+    puts ("\nPage directory entry: 0x");
+    puts (itoa ((int) page_dir_entry_addr, str, 16));
+    puts ("\nPage table: 0x");
+    puts (itoa ((int) page_table_addr, str, 16));
+    puts ("\nPage table entry: 0x");
+    puts (itoa ((int) page_table_entry_addr, str, 16));
+    puts ("\n");
+    */
+
+    // Change the page table entry.
+    *page_table_entry_addr = (u32) (physical | (page_table_entry & 0xFFF));
+
+    // Remove the page table from the TLB (read: the cache of page tables).
+    invlpg ((void *) virtual);
+
+    return MAP_SUCCESS;
+}
+
 // Push an address of the free physical page onto the stack.
 void push_physical_page (int address)
 {
@@ -32,13 +90,20 @@ int pop_physical_page (void)
 }
 
 // Initialize the memory manager.
-void init_mm (int physical_memory_size)
+void init_mm (mb_info_t *mb_info)
 {
+    /*
     puts ("Initializing the memory manager\n");
+    */
+
+    /*int physical_memory_size = mb_info->mem_upper;*/ // not used
+    int lower_memory_size = mb_info->mem_lower;
+
     int stack_size = 640;
     stack_ptr = (int *) 0x00000 + stack_size;
     initial_stack_ptr = stack_ptr;
 
+    /*
     puts (" - Physical memory size: ");
     char str[32];
     puts (itoa (physical_memory_size / 1024 / 1024, str, 10));
@@ -49,11 +114,14 @@ void init_mm (int physical_memory_size)
     puts (" - Size of the stack: ");
     puts (itoa (stack_size, str, 10));
     puts (" B\n");
+    */
 
-    puts (" - Physical pages from 0x0 to 0xA0000 are free\n");
+    /*
+    puts (" - Physical pages from 0x0 to 0x... are free\n");
+    */
 
     int i;
-    for (i = 0x0; i < 0x90000; i += 4096)
+    for (i = 0x0; i < lower_memory_size; i += 4096)
     {
         push_physical_page (i);
     }
@@ -209,7 +277,7 @@ int free_pages (void *start_at)
         //   1 means that the page is inside a block.
         *pgtbl_entry_addr &= ~(0x200); // 0x200 = the 9th bit
 
-        // Remove the page from the TLB (read: page tables cache).
+        // Remove the page from the TLB (read: the cache of page tables).
         invlpg ((void *) i);
     }
 
@@ -217,7 +285,7 @@ int free_pages (void *start_at)
 }
 
 // Remove a page from the TLB (Translation Lookaside Buffer).
-inline void invlpg (void *m)
+inline void invlpg (void *page_addr)
 {
-    asm volatile ("invlpg (%0)" : : "b" (m) : "memory");
+    asm volatile ("invlpg (%0)" : : "b" (page_addr) : "memory");
 }
