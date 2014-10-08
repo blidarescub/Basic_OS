@@ -1,5 +1,5 @@
-Basic OS 1.1.
-=============
+Basic OS 1.1
+============
 
 **Basic OS** is an operating system that was and is created to show programmers and beginners in OS development how does
 the simple OS look like.<br>
