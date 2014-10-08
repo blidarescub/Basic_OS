@@ -54,7 +54,6 @@ extern irqs_handler
 		push es
 		push fs
 		push gs
-		pop  gs
 
 		mov ax, 0x10
 		mov ds, ax
@@ -63,16 +62,17 @@ extern irqs_handler
 		mov gs, ax
 
 		mov eax, esp
-		push eax		; An argument to the C function.
+		push eax				; An argument to the C function.
 		mov eax, excs_handler
 		call eax
 		pop eax
 
+		pop gs
 		pop fs
 		pop es
 		pop ds
 		popa
-		add esp, 8 ; Skip the byte pushed and the error code.
+		add esp, 8				; Skip the byte pushed and the error code.
 		iret
 %endmacro
 
@@ -85,13 +85,13 @@ extern irqs_handler
 		pusha
 
 		mov eax, esp
-		push eax		; An argument to the C function.
+		push eax				; An argument to the C function.
 		mov eax, irqs_handler
 		call eax
 		pop eax
 
 		popa
-		add esp, 4			; Skip the pushed IRQ number.
+		add esp, 4				; Skip the pushed IRQ number.
 		iret
 %endmacro
 
