@@ -1,4 +1,7 @@
 What is left?
 =============
 
-Sorry, the TODO list is not available yet.
+This is the TODO list for Basic OS v1.2:
+
+- [x] Add `getch()` and `gets()`.
+- [ ] Not thinked yet.
