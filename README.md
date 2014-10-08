@@ -1,5 +1,5 @@
-Basic Operating System.
-=======================
+<img src="http://exetwezz.8nio.com/themes/demo/assets/images/logo.png" alt="Logo" width=60 height=60> Basic Operating System.
+==============================
 
 **Status:** 1.2 in development.<br>
 **Version:** 1.1 (http://semver.org/).
