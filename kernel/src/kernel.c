@@ -34,7 +34,7 @@ void kernel_main (mb_info_t *mb_info)
     clear_screen ();
     puts ("Hello World!\n");
 
-    create_page_table (1);
-    int *addr = (int *) 0x400000;
-    *addr = 0x20;
+    char *str = gets (12);
+    puts ("You entered: ");
+    puts (str);
 }
