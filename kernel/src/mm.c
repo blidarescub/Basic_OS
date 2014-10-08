@@ -121,6 +121,12 @@ void push_physical_page (int address)
 {
     stack_ptr -= 4;
     *stack_ptr = address;
+
+    // Mark the page as free.
+    free_pages ((void *) address);
+    // Though it's a virtual memory manager function and it interacts with the
+    // virtual address space, in our OS the virtual addresses of the kernel are
+    // mapped to the same physical addresses, so don't worry about this call.
 }
 
 // Pop an address of the free physical page from the stack.
@@ -134,6 +140,13 @@ int pop_physical_page (void)
     }
     int address = *stack_ptr;
     stack_ptr += 4;
+
+    // Mark the page as used.
+    alloc_pages ((void *) address, 1);
+    // Though it's a virtual memory manager function and it interacts with the
+    // virtual address space, in our OS the virtual addresses of the kernel are
+    // mapped to the same physical addresses, so don't worry about this call.
+
     return address;
 }
 
@@ -153,16 +166,6 @@ void init_mm (mb_info_t *mb_info)
         // Push the address of the free physical page onto the stack of free
         // physical pages.
         push_physical_page (i);
-
-        // Mark the page as used in the virtual address space.
-        // P.S. In our OS, virtual addresses of the kernel are mapped to the
-        // same physical addresses, so we don't care about the consequences
-        // (e.g. if someone mapped a virtual page to one of the free physical
-        // pages, it's his problems).
-        alloc_pages ((void *) i, 1); // So, we don't need to translate
-        // physical address to a virtual one.
-        // Also, it's not fast to allocate each page separately, but I'd rewrite
-        // it later ;).
     }
 }
 
