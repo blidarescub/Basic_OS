@@ -21,24 +21,20 @@
 // The C kernel main.
 void kernel_main (mb_info_t *mb_info)
 {
-	init_screen ();
-	clear_screen ();
+    init_screen ();
+    clear_screen ();
 
-	setup_idt ();
-	init_keyboard_handler ();
-	init_timer_handler ();
+    setup_idt ();
+    init_keyboard_handler ();
+    init_timer_handler ();
 
-	init_paging ();
-	init_mm (mb_info);
+    init_paging ();
+    init_mm (mb_info);
 
-	clear_screen ();
-	puts ("Hello World!\n");
+    clear_screen ();
+    puts ("Hello World!\n");
 
-	create_page_table (1);
-	int *addr = (int *) 0x400000;
-	*addr = 0x20;
-
-    char str[32];
-    puts (itoa (*addr, str, 16));
-    puts ("\n");
+    create_page_table (1);
+    int *addr = (int *) 0x400000;
+    *addr = 0x20;
 }

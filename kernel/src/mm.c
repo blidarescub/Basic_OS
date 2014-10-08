@@ -102,7 +102,7 @@ int create_page_table (int num)
 
         // Fill in the entry "i".
         ppage[i] = page | 3; // End with 011 (supervisor level, read and write
-		// access, the page is present).
+        // access, the page is present).
     }
 
     // Update the page directory entry.

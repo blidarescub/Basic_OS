@@ -13,26 +13,26 @@ int timer_seconds;
 // Set the timer handler.
 void init_timer_handler (void)
 {
-	// Set the timer phase.
-	int divisor = 1193180 / 100;
-	outb (0x43, 0x36);
-	outb (0x40, divisor & 0xFF);
-	outb (0x40, (divisor >> 8) & 0xFF);
+    // Set the timer phase.
+    int divisor = 1193180 / 100;
+    outb (0x43, 0x36);
+    outb (0x40, divisor & 0xFF);
+    outb (0x40, (divisor >> 8) & 0xFF);
 
-	// Set the IRQ handler.
-	set_irq_handler (0, timer_handler);
+    // Set the IRQ handler.
+    set_irq_handler (0, timer_handler);
 
-	// Unmask the IRQ.
-	unmask_irq (0);
+    // Unmask the IRQ.
+    unmask_irq (0);
 }
 
 // The timer handler.
 void timer_handler (regs_irq_t *regs)
 {
-	++timer_ticks;
-	if (timer_ticks % 100 == 0)
-	{
-		++timer_seconds;
-	}
+    ++timer_ticks;
+    if (timer_ticks % 100 == 0)
+    {
+        ++timer_seconds;
+    }
 
 }

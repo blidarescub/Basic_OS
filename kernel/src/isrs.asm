@@ -11,88 +11,88 @@ extern irqs_handler
 
 ; Define an ISR for an Exception without error code.
 %macro ISR_EXC 1
-	; arg1 - Exception number.
-	global exc%1
-	exc%1:
-		push byte 0			; Fake error code.
-		push byte %1			; Exception number.
-		pusha
-		push ds
-		push es
-		push fs
-		push gs
+    ; arg1 - Exception number.
+    global exc%1
+    exc%1:
+        push byte 0				; Fake error code.
+        push byte %1			; Exception number.
+        pusha
+        push ds
+        push es
+        push fs
+        push gs
 
-		mov ax, 0x10
-		mov ds, ax
-		mov es, ax
-		mov fs, ax
-		mov gs, ax
+        mov ax, 0x10
+        mov ds, ax
+        mov es, ax
+        mov fs, ax
+        mov gs, ax
 
-		mov eax, esp
-		push eax		; An argument to the C function.
-		mov eax, excs_handler
-		call eax
-		pop eax
+        mov eax, esp
+        push eax				; An argument to the C function.
+        mov eax, excs_handler
+        call eax
+        pop eax
 
-		pop gs
-		pop fs
-		pop es
-		pop ds
-		popa
-		add esp, 8			; Skip the two bytes pushed.
-		iret
+        pop gs
+        pop fs
+        pop es
+        pop ds
+        popa
+        add esp, 8				; Skip the two bytes pushed.
+        iret
 %endmacro
 
 ; Define an ISR for an Exception with error code.
 %macro ISR_EXC_EC 1
-	; arg1 - Exception number.
-	global exc%1
-	exc%1:
-		push byte %1			; Excetpion number.
-		pusha
-		push ds
-		push es
-		push fs
-		push gs
+    ; arg1 - Exception number.
+    global exc%1
+    exc%1:
+        push byte %1			; Excetpion number.
+        pusha
+        push ds
+        push es
+        push fs
+        push gs
 
-		mov ax, 0x10
-		mov ds, ax
-		mov es, ax
-		mov fs, ax
-		mov gs, ax
+        mov ax, 0x10
+        mov ds, ax
+        mov es, ax
+        mov fs, ax
+        mov gs, ax
 
-		mov eax, esp
-		push eax				; An argument to the C function.
-		mov eax, excs_handler
-		call eax
-		pop eax
+        mov eax, esp
+        push eax				; An argument to the C function.
+        mov eax, excs_handler
+        call eax
+        pop eax
 
-		pop gs
-		pop fs
-		pop es
-		pop ds
-		popa
-		add esp, 8				; Skip the byte pushed and the error code.
-		iret
+        pop gs
+        pop fs
+        pop es
+        pop ds
+        popa
+        add esp, 8				; Skip the byte pushed and the error code.
+        iret
 %endmacro
 
 ; Define an ISR for an IRQ.
 %macro ISR_IRQ 1
-	; arg1 - IRQ number.
-	global irq%1
-	irq%1:
-		push byte %1			; IRQ number.
-		pusha
+    ; arg1 - IRQ number.
+    global irq%1
+    irq%1:
+        push byte %1			; IRQ number.
+        pusha
 
-		mov eax, esp
-		push eax				; An argument to the C function.
-		mov eax, irqs_handler
-		call eax
-		pop eax
+        mov eax, esp
+        push eax				; An argument to the C function.
+        mov eax, irqs_handler
+        call eax
+        pop eax
 
-		popa
-		add esp, 4				; Skip the pushed IRQ number.
-		iret
+        popa
+        add esp, 4				; Skip the pushed IRQ number.
+        iret
 %endmacro
 
 ; The ISRs for the Exceptions.
