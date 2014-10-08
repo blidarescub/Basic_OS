@@ -3,6 +3,7 @@
 
 #include <handlers.h>
 #include <screen.h>
+#include <string.h>
 #include <inoutb.h>
 #include <types.h>
 
@@ -51,19 +52,18 @@ void excs_handler (regs_exc_t *regs)
 		"Reserved",
 	};
 
-	if (regs->num <= 31)
-	{
-		clear_screen ();
-		puts (msg[regs->num]);
-		puts (" Exception was occurred.");
-		halt ();
-	}
-	else
-	{
-		clear_screen ();
-		puts ("Exception Handler was called, but no such exception.");
-		halt ();
-	}
+	puts (msg[regs->num]);
+	puts (" Exception was occurred.\n");
+
+    if (regs->num == 14)
+    {
+        char str[32];
+        puts ("Error code: ");
+        puts (itoa (regs->err_code, str, 2));
+        puts ("\n");
+    }
+
+	halt ();
 }
 
 // IRQs handler.
