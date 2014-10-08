@@ -1,8 +1,8 @@
 Basic Operating System.
 =======================
 
-**Status:** 1.1 in development.<br>
-**Version:** 1.0.1 (http://semver.org/).
+**Status:** 1.2 in development.<br>
+**Version:** 1.1 (http://semver.org/).
 
 This is the **Basic OS**. The goal of the OS is to show programmers what does
 a simple OS look like (its features).
@@ -17,11 +17,11 @@ Building.
 To get and build the Basic OS, you need the following packages to be installed:
 
 ```
-* clang			# C compiler.
-* nasm			# Netwide Assembler.
+* clang       # C compiler.
+* nasm        # Netwide Assembler.
 * binutils		# Contains `ld`, the linker.
-* grub2			# Contains `grub-mkrescue`, an utility that creates GRUB2 .iso image.
-* xorriso		# Needed for `grub-mkrescue`.
+* grub2       # Contains `grub-mkrescue`, an utility that creates GRUB2 .iso image.
+* xorriso     # Needed for `grub-mkrescue`.
 ```
 
 You must have them to continue.
@@ -37,25 +37,22 @@ Then you need to download the sources by downloading the
 Run these commands to unarchive and build the OS:
 
 ```
-SomeDir $ tar -xzvf DOWNLOADED_ARCHIVE.tar.gz
-SomeDir $ mv Basic_OS* Basic_OS
-SomeDir $ cd Basic_OS
-Basic_OS $ cd kernel
-kernel $ make
+$ tar -xzvf DOWNLOADED_ARCHIVE.tar.gz
+$ cd Basic_OS*/kernel && make
 ```
 
 Running.
 ========
 
-To run the compiled Basic OS kernel, run the `./run.sh` script:
+To run the **compiled** Basic OS, there is a `run.sh` script.
 
 ```
-$ ./run.sh
+Usage: ./run.sh [emulator]
+Available values for `emulator`:
+    qemu        Start Basic OS in QEMU.
+    bochs       Start Basic OS in Bochs.
+    virtualbox  Start Basic OS in VirtualBox (though it's not an emulator).
 ```
-
-By default, it starts Bochs. However, it can start QEMU: `./run.sh qemu`.<br>
-You can add a few commands that start another emulator just by editing the
-script itself.
 
 Need help?
 ==========
