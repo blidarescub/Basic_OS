@@ -4,8 +4,13 @@
 #ifndef MM_H
 #define MM_H
 
-// Error codes for "map_page".
+// Error codes for "map_page()".
 #define MAP_SUCCESS			0		// The virtual page was successfully mapped.
+
+// Error codes for "create_page_table()".
+#define CPT_SUCCESS			0		// The specified page table was created.
+#define CPT_ZERONUM			1		// The `num` argument is less than 0.
+#define CPT_BIGNUM			2		// The `num` argument is more than 1023.
 
 // Error codes for "alloc_pages()".
 #define ALLOC_SUCCESS       0       // Successfully allocated.
@@ -20,6 +25,7 @@
 
 /* mm.c */
 int  map_page (int, int);
+int  create_page_table (int);
 void push_physical_page (int);
 int  pop_physical_page (void);
 void init_mm (mb_info_t *);
@@ -32,5 +38,6 @@ extern void halt (void);
 
 /* paging_ll.asm */
 extern u32 read_cr3 (void);
+extern void write_cr3 (u32);
 
 #endif /* !MM_H */

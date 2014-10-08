@@ -32,11 +32,13 @@ void kernel_main (mb_info_t *mb_info)
 	init_mm (mb_info);
 
 	clear_screen ();
+	puts ("Hello World!\n");
 
-	int *mem_before = (int *) 0x302000;
-	*mem_before = 0x30;
-	int *mem_after = (int *) 0x300000;
-	map_page (0x300000, 0x302000);
-	char str[32];
-	puts (itoa (*mem_after, str, 16));
+	create_page_table (1);
+	int *addr = (int *) 0x400000;
+	*addr = 0x20;
+
+    char str[32];
+    puts (itoa (*addr, str, 16));
+    puts ("\n");
 }

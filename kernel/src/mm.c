@@ -62,10 +62,58 @@ int map_page (int virtual, int physical)
     // Change the page table entry.
     *page_table_entry_addr = (u32) (physical | (page_table_entry & 0xFFF));
 
-    // Remove the page table from the TLB (read: the cache of page tables).
+    // Remove the page table from the TLB.
     invlpg ((void *) virtual);
 
     return MAP_SUCCESS;
+}
+
+// Create a page table.
+int create_page_table (int num)
+{
+    // `num` is the number of a new page table (counting from 0).
+
+    // Get the physical address of the current page directory.
+    int page_dir = read_cr3 ();
+
+    if (num < 0)
+    {
+        return CPT_ZERONUM;
+    }
+    if (num > 1023)
+    {
+        // The maximum value of page tables in one page directory is 1024.
+        return CPT_BIGNUM;
+    }
+
+    // Request a free physical page.
+    u32 *ppage = (u32 *) pop_physical_page ();
+    // The new page table will be located in this physical page.
+
+    // Convert `num` to the address of the first page that will be pushed into
+    // the first entry of the new page table.
+    int first = num * 4194304;
+
+    // Fill in the page table.
+    int i;
+    for (i = 0; i < 1024; ++i)
+    {
+        int page = first + (i * 4096);
+
+        // Fill in the entry "i".
+        ppage[i] = page | 3; // End with 011 (supervisor level, read and write
+		// access, the page is present).
+    }
+
+    // Update the page directory entry.
+    u32 *page_dir_ptr = (u32 *) page_dir;
+    page_dir_ptr[num] = (u32) ppage | 3; // End with 011 (supervisor level,
+    // read and write access, the page table is present).
+
+    // Cause an update of the TLB.
+    write_cr3 (page_dir);
+
+    return CPT_SUCCESS;
 }
 
 // Push an address of the free physical page onto the stack.
@@ -92,36 +140,15 @@ int pop_physical_page (void)
 // Initialize the memory manager.
 void init_mm (mb_info_t *mb_info)
 {
-    /*
-    puts ("Initializing the memory manager\n");
-    */
-
     /*int physical_memory_size = mb_info->mem_upper;*/ // not used
-    int lower_memory_size = mb_info->mem_lower;
+    int lower_memory_size = mb_info->mem_lower * 1024;
 
     int stack_size = 640;
     stack_ptr = (int *) 0x00000 + stack_size;
     initial_stack_ptr = stack_ptr;
 
-    /*
-    puts (" - Physical memory size: ");
-    char str[32];
-    puts (itoa (physical_memory_size / 1024 / 1024, str, 10));
-    puts (" MB\n");
-    puts (" - Stack of free pages starts at: 0x");
-    puts (itoa ((int) stack_ptr, str, 16));
-    puts ("\n");
-    puts (" - Size of the stack: ");
-    puts (itoa (stack_size, str, 10));
-    puts (" B\n");
-    */
-
-    /*
-    puts (" - Physical pages from 0x0 to 0x... are free\n");
-    */
-
     int i;
-    for (i = 0; i < lower_memory_size; i += 4096)
+    for (i = 0x2000; i < lower_memory_size; i += 4096)
     {
         // Push the address of the free physical page onto the stack of free
         // physical pages.
@@ -131,7 +158,7 @@ void init_mm (mb_info_t *mb_info)
         // P.S. In our OS, virtual addresses of the kernel are mapped to the
         // same physical addresses, so we don't care about the consequences
         // (e.g. if someone mapped a virtual page to one of the free physical
-        // pages, it's his problems :D).
+        // pages, it's his problems).
         alloc_pages ((void *) i, 1); // So, we don't need to translate
         // physical address to a virtual one.
         // Also, it's not fast to allocate each page separately, but I'd rewrite
@@ -208,7 +235,7 @@ int alloc_pages (void *start_at, int count)
             *pgtbl_entry_addr |= 0x400; // 0x400 = the 10th bit
         }
 
-        // Remove the page from the TLB (read: page tables cache).
+        // Remove the page from the TLB.
         invlpg ((void *) i);
     }
 
@@ -289,7 +316,7 @@ int free_pages (void *start_at)
         //   1 means that the page is inside a block.
         *pgtbl_entry_addr &= ~(0x200); // 0x200 = the 9th bit
 
-        // Remove the page from the TLB (read: the cache of page tables).
+        // Remove the page from the TLB.
         invlpg ((void *) i);
     }
 
