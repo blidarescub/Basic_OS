@@ -3,16 +3,16 @@
 # This script runs the specified (and supported) emulator.
 # "Supported" means that the code to start that emulator is written here.
 
-DEFAULT=virtualbox			# Default emulator/VM.
-CURRENT=$DEFAULT			# Emulator/VM to run.
+DEFAULT=qemu                        # Default emulator/VM.
+CURRENT=$DEFAULT                    # Emulator/VM to run.
 
-VBOX_VM_NAME="Basic OS"			# Place here the name of the virtual
-					# machine in which you want to run the
-					# Basic OS.
+VBOX_VM_NAME="Basic OS"             # Place here the name of the virtual
+                                    # machine in which you want to run the
+                                    # Basic OS.
 
 # Did the user specify what emulator/VM to start?
 if [ ! "$1" = '' ]; then
-	CURRENT=$1			# Select the specified emulator/VM.
+	CURRENT=$1	            		# Select the specified emulator/VM.
 fi
 
 # Run the emulator/VM.
@@ -36,10 +36,12 @@ elif [ "$CURRENT" = qemu ]; then	# User wants to run the OS in QEMU?
 	# Is it installed?
 	if test $CURRENT; then
 		# Yes.
+
 		qemu-system-i386\
 			-cdrom disk/myos.iso\
 			-boot cd\
-			-rtc base=localtime,clock=host,driftfix=slew
+			-rtc base=localtime,clock=host,driftfix=slew\
+            -curses
 	else
 		# No.
 		echo -n "The \`qemu-system-i386\` package is not installed "
