@@ -37,11 +37,27 @@ elif [ "$CURRENT" = qemu ]; then	# User wants to run the OS in QEMU?
 	if test $CURRENT; then
 		# Yes.
 
-		qemu-system-i386\
-			-cdrom disk/myos.iso\
-			-boot cd\
-			-rtc base=localtime,clock=host,driftfix=slew\
-            -curses
+		echo 'To quit QEMU, press ESC-2 and run `quit`.'
+		echo -n 'Continue? [Y/n] '
+		read answer
+
+		answer=$(echo $answer | tr '[:upper:]' '[:lower:]')
+
+		if [ "$answer" = "" ]; then
+			answer="n"
+		fi
+
+		first_char=$(echo $answer | head -c 1)
+
+		if [ "$first_char" = "y" ]; then
+			qemu-system-i386\
+				-cdrom disk/myos.iso\
+				-boot cd\
+				-rtc base=localtime,clock=host,driftfix=slew\
+				-curses
+		else
+			echo "Aborted."
+		fi
 	else
 		# No.
 		echo -n "The \`qemu-system-i386\` package is not installed "
