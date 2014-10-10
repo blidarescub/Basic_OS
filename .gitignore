@@ -1,4 +1,5 @@
-*.o
-*.bin
-myos.iso
-isofiles
+kernel/src/*.o
+bin/*.bin
+disk/myos.iso
+disk/isofiles/
+Documentation/
