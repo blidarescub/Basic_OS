@@ -2,4 +2,3 @@ kernel/src/*.o
 bin/*.bin
 disk/myos.iso
 disk/isofiles/
-Documentation/
