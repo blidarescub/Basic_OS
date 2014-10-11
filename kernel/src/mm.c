@@ -14,15 +14,15 @@ int *initial_stack_ptr;
 int map_page (int virtual, int physical)
 {
     // Are the addresses 4KB-aligned?
-    if (physical & 0xFFF)
-    {
-        // The physical one is not aligned, align it.
-        physical &= 0xFFFFF000;
-    }
     if (virtual & 0xFFF)
     {
         // The virtual one is not aligned, align it.
         virtual &= 0xFFFFF000;
+    }
+    if (physical & 0xFFF)
+    {
+        // The physical one is not aligned, align it.
+        physical &= 0xFFFFF000;
     }
 
     // Get the physical address of the current page directory.
@@ -46,19 +46,6 @@ int map_page (int virtual, int physical)
     u32 *page_table_entry_addr = page_table_addr + ((virtual >> 12) & 0x3FF);
     const u32 page_table_entry = *page_table_entry_addr; // Just a copy.
 
-    /*
-    char str[32];
-    puts ("Page directory: 0x");
-    puts (itoa ((int) page_dir_addr, str, 16));
-    puts ("\nPage directory entry: 0x");
-    puts (itoa ((int) page_dir_entry_addr, str, 16));
-    puts ("\nPage table: 0x");
-    puts (itoa ((int) page_table_addr, str, 16));
-    puts ("\nPage table entry: 0x");
-    puts (itoa ((int) page_table_entry_addr, str, 16));
-    puts ("\n");
-    */
-
     // Change the page table entry.
     *page_table_entry_addr = (u32) (physical | (page_table_entry & 0xFFF));
 
@@ -68,22 +55,58 @@ int map_page (int virtual, int physical)
     return MAP_SUCCESS;
 }
 
+// Map virtual pages to physical ones.
+int map_pages (int virtual, int physical, int count)
+{
+    // Are the address 4KB-aligned?
+    if (virtual & 0xFFF)
+    {
+        // The virtual one is not aligned, align it.
+        virtual &= 0xFFFFF000;
+    }
+    if (physical & 0xFFF)
+    {
+        // The physical one is not aligned, align it.
+        physical &= 0xFFFFF000;
+    }
+
+    // Map the pages separately.
+    int i;
+    for (i = 0; i < count; ++i)
+    {
+        map_page (virtual + count, physical + count);
+    }
+
+    return MAP_SUCCESS;
+}
+
+// Switch a page directory.
+void switch_page_directory (void *addr)
+{
+    write_cr3 ((u32) addr);
+}
+
 // Create a page table.
-int create_page_table (int num)
+u32 *create_page_table (int num)
 {
     // `num` is the number of a new page table (counting from 0).
+    // Examples:
+    //   create_page_table (0);
+    //     - Create a page table for pages 0x0 - 0x3FF000.
+    //   create_page_table (1);
+    //     - Create a page table for pages 0x400000 - 0x7FF000.
 
     // Get the physical address of the current page directory.
     int page_dir = read_cr3 ();
 
     if (num < 0)
     {
-        return CPT_ZERONUM;
+        return 0;
     }
     if (num > 1023)
     {
         // The maximum value of page tables in one page directory is 1024.
-        return CPT_BIGNUM;
+        return 0;
     }
 
     // Request a free physical page.
@@ -113,7 +136,7 @@ int create_page_table (int num)
     // Cause an update of the TLB.
     write_cr3 (page_dir);
 
-    return CPT_SUCCESS;
+    return (u32 *) ppage;
 }
 
 // Push an address of the free physical page onto the stack.
@@ -192,7 +215,7 @@ int alloc_pages (void *start_at, int count)
     {
         // TODO: Create a new page table and create an entry in the page
         // directory for it (also call invlpg()).
-        puts ("The page table is not present.\n");
+        puts ("Page table is not present.\n");
         halt ();
     }
 

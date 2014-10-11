@@ -4,13 +4,9 @@
 #ifndef MM_H
 #define MM_H
 
-// Error codes for "map_page()".
-#define MAP_SUCCESS			0		// The virtual page was successfully mapped.
-
-// Error codes for "create_page_table()".
-#define CPT_SUCCESS			0		// The specified page table was created.
-#define CPT_ZERONUM			1		// The `num` argument is less than 0.
-#define CPT_BIGNUM			2		// The `num` argument is more than 1023.
+// Error codes for "map_page()" and "map_pages()".
+#define MAP_SUCCESS			0		// The virtual page(s) was successfully
+                                    // mapped.
 
 // Error codes for "alloc_pages()".
 #define ALLOC_SUCCESS       0       // Successfully allocated.
@@ -24,14 +20,23 @@
 #include <types.h>
 
 /* mm.c */
-int  map_page (int, int);
-int  create_page_table (int);
-void push_physical_page (int);
-int  pop_physical_page (void);
-void init_mm (mb_info_t *);
-int  alloc_pages (void *, int);
-int  free_pages (void *);
-void invlpg (void *);
+    /* Mapping. */
+    int map_page (int, int);
+    int map_pages (int, int, int);
+
+    /* Page directories and page tables. */
+    void switch_page_directory (void *);
+    u32 *create_page_table (int);
+
+    /* Physical memory manager. */
+    void push_physical_page (int);
+    int  pop_physical_page (void);
+
+    /* Virtual memory manager. */
+    void init_mm (mb_info_t *);
+    int  alloc_pages (void *, int);
+    int  free_pages (void *);
+    void invlpg (void *);
 
 /* kernel_ll.asm */
 extern void halt (void);
