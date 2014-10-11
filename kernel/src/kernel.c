@@ -15,7 +15,7 @@
 #include <paging.h>
 #include <mm.h>
 
-/* Other. */
+/* Other stuff. */
 #include <types.h>
 
 // The C kernel main.
@@ -31,10 +31,10 @@ void kernel_main (mb_info_t *mb_info)
     init_paging ();
     init_mm (mb_info);
 
-    clear_screen ();
-    puts ("Hello World!\n");
+    int *addr = (int *) 0x400000;
+    *addr = 0x20;
 
-    char *str = gets (12);
-    puts ("You entered: ");
-    puts (str);
+    char str[32];
+    puts ("0x");
+    puts (itoa (*addr, str, 16));
 }

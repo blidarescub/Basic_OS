@@ -14,5 +14,6 @@ void unset_irq_handler (int);
 
 /* kernel_ll.asm */
 extern void halt (void);
+extern u32  read_cr2 (void);
 
 #endif /* !HANDLERS_H */

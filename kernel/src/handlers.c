@@ -4,6 +4,8 @@
 #include <handlers.h>
 #include <screen.h>
 #include <string.h>
+#include <mm.h>
+#include <paging.h>
 #include <inoutb.h>
 #include <types.h>
 
@@ -52,17 +54,38 @@ void excs_handler (regs_exc_t *regs)
         "Reserved",
     };
 
-    puts (msg[regs->num]);
-    puts (" Exception was occurred.\n");
-
-    if (regs->num == 14)
+    if (regs->num == 14) // Page Fault?
     {
-        char str[32];
-        puts ("Error code: ");
-        puts (itoa (regs->err_code, str, 2));puts ("\n");
-    }
+        // Is the page table not present?
+        if (!(regs->err_code & 1))
+        {
+            // Yeah, create the needed page table.
 
-    halt ();
+            // The CR2 register holds the virtual address that caused the page
+            // fault.
+            int vaddr = read_cr2 ();
+
+            // Get the page table that covers the virtual address `vaddr'.
+            int pt = vaddr >> 22;
+
+            // Create the needed page table.
+            create_page_table (pt);
+
+            // Cause an update of the TLB.
+            write_cr3 (read_cr3 ());
+        }
+        else
+        {
+            puts ("Page Fault Exception was occurred.\n");
+            halt ();
+        }
+    }
+    else
+    {
+        puts (msg[regs->num]);
+        puts (" Exception was occurred.\n");
+        halt ();
+    }
 }
 
 // IRQs handler.

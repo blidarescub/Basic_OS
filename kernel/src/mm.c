@@ -205,19 +205,12 @@ int alloc_pages (void *start_at, int count)
     u32 *page_dir = (u32 *) cr3;
 
     // Calculate the address of the needed page table.
-    int page_dir_offset = (int) start_at >> 22; // The offset of the needed page table
-    // in the page directory.
+    int page_dir_offset = (int) start_at >> 22; // The offset of the needed page
+    // table in the page directory.
     u32 page_table = page_dir[page_dir_offset]; // Multiply the offset by 32
     // (element size) and add it to the page directory address.
 
-    // Is the page table not present?
-    if ((page_table & 1) == 0)
-    {
-        // TODO: Create a new page table and create an entry in the page
-        // directory for it (also call invlpg()).
-        puts ("Page table is not present.\n");
-        halt ();
-    }
+    if (0) page_table = 0; // dead code.
 
     // Verify that the pages are free.
     int i;
