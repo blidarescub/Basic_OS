@@ -41,4 +41,5 @@ skip_header:
 ; The stack.
 section .bss
 resb 8192
+global stack
 stack:
