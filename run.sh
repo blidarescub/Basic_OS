@@ -3,7 +3,7 @@
 # This script runs the specified (and supported) emulator.
 # "Supported" means that the code to start that emulator is written here.
 
-DEFAULT=qemu                        # Default emulator/VM.
+DEFAULT=bochs                       # Default emulator/VM.
 CURRENT=$DEFAULT                    # Emulator/VM to run.
 
 VBOX_VM_NAME="Basic OS"             # Place here the name of the virtual
@@ -44,7 +44,7 @@ elif [ "$CURRENT" = qemu ]; then	# User wants to run the OS in QEMU?
 		answer=$(echo $answer | tr '[:upper:]' '[:lower:]')
 
 		if [ "$answer" = "" ]; then
-			answer="n"
+			answer="y"
 		fi
 
 		first_char=$(echo $answer | head -c 1)
