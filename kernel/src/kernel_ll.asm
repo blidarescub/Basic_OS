@@ -77,3 +77,9 @@ load_idt:
     lidt [idt_ptr]
     sti
     ret
+
+; Read the CR2 register.
+global read_cr2
+read_cr2:
+    mov eax, cr2
+    retn
