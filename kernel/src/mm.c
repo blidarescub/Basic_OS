@@ -143,6 +143,11 @@ uint32_t *create_page_table (int num)
 // Push an address of the free physical page onto the stack.
 void push_physical_page (uint32_t address)
 {
+    if (stack_ptr == 0x0)
+    {
+        puts ("End of stack of free pages was reached.");
+        halt ();
+    }
     stack_ptr -= 4;
     *stack_ptr = address;
 }
@@ -184,10 +189,7 @@ void init_mm (mb_info_t *mb_info)
     puts (itoa (mb_info->mmap_length, str, 16));
     puts ("\n");
 
-    // We need 128 KB of RAM to store the stack of free pages.
-    // Since we consider only low 32 bits of addresses below, the maximum
-    // value of free physical memory is 4 GB, or 1024*1024 pages.
-    stack_ptr = (uint32_t *) 0x20000;
+    stack_ptr = (uint32_t *) 0x90000;
 
     // Loop through the memory map and print all the regions.
     uint32_t i; // Current entry of the memory map.
@@ -214,19 +216,22 @@ void init_mm (mb_info_t *mb_info)
         puts (", type = ");
         if (*type == 1) // Free?
         {
-            puts ("free");
+            puts ("free\n");
             // Loop through the region and push addresses of pages onto the
             // stack.
-            int j;
-            for (j = *base_addr_low; j < (*base_addr_low + *length_low);
-                    j += 4096)
+            uint32_t j = *base_addr_low;
+            for (; j < (*base_addr_low + *length_low); j += 4096)
             {
+                // The stack itself?
+                if (j < (uint32_t) stack_ptr) continue;
+                // The kernel?
+                if (j >= 0x100000 && j < 0x200000) continue;
+
                 push_physical_page (j);
             }
         }
         else
-            puts ("reserved");
-        puts ("\n");
+            puts ("reserved\n");
 
         i += *size + 4; // +4 since the `size' field is at offset 0, not -4.
     }
