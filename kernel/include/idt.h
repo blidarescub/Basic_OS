@@ -4,29 +4,29 @@
 #ifndef IDT_H
 #define IDT_H
 
-#include <types.h>
+#include <stdint.h>
 
 typedef struct
 {
-	u16	routineAddr_low;
-	u16	segSelector;
-	u8	reserved;
-	u8	type_and_attributes;
-	u16	routineAddr_high;
+	uint16_t routineAddr_low;
+	uint16_t segSelector;
+	uint8_t  reserved;
+	uint8_t  type_and_attributes;
+	uint16_t routineAddr_high;
 } __attribute__ ((packed)) idt_entry;
 
 typedef struct
 {
-	u16	size;
-	u32	address;
+	uint16_t size;
+	uint32_t address;
 } __attribute__ ((packed)) idt_pointer;
 
 /* idt.c */
 void remap_pics (void);
 void setup_idt (void);
-void mask_irq (u16);
-void unmask_irq (u16);
-void set_idt_entry (int, u32);
+void mask_irq (uint16_t);
+void unmask_irq (uint16_t);
+void set_idt_entry (uint32_t, uint32_t);
 
 /* kernel_ll.asm */
 extern void load_idt (void);

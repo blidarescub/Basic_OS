@@ -15,8 +15,8 @@
 #include <paging.h>
 #include <mm.h>
 
-/* Other stuff. */
-#include <types.h>
+/* Types. */
+#include <stdint.h>
 
 // The C kernel main.
 void kernel_main (mb_info_t *mb_info)

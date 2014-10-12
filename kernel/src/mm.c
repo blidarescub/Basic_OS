@@ -4,8 +4,8 @@
 #include <mm.h>
 #include <screen.h>
 #include <string.h>
-#include <types.h>
 #include <stdint.h>
+#include <structs.h>
 
 // The stack (the stack of free physical pages) pointer.
 uint32_t *stack_ptr;
@@ -84,11 +84,11 @@ int map_pages (uint32_t virtual, uint32_t physical, size_t count)
 // Switch a page directory.
 void switch_page_directory (void *addr)
 {
-    write_cr3 ((u32) addr);
+    write_cr3 ((uint32_t) addr);
 }
 
 // Create a page table.
-u32 *create_page_table (int num)
+uint32_t *create_page_table (int num)
 {
     // `num` is the number of a new page table (counting from 0).
     // Examples:
@@ -111,7 +111,7 @@ u32 *create_page_table (int num)
     }
 
     // Request a free physical page.
-    u32 *ppage = (u32 *) pop_physical_page ();
+    uint32_t *ppage = (uint32_t *) pop_physical_page ();
     // The new page table will be located in this physical page.
 
     // Convert `num` to the address of the first page that will be pushed into
@@ -130,14 +130,14 @@ u32 *create_page_table (int num)
     }
 
     // Update the page directory entry.
-    u32 *page_dir_ptr = (u32 *) page_dir;
-    page_dir_ptr[num] = (u32) ppage | 3; // End with 011 (supervisor level,
+    uint32_t *page_dir_ptr = (uint32_t *) page_dir;
+    page_dir_ptr[num] = (uint32_t) ppage | 3; // End with 011 (supervisor level,
     // read and write access, the page table is present).
 
     // Cause an update of the TLB.
     write_cr3 (page_dir);
 
-    return (u32 *) ppage;
+    return (uint32_t *) ppage;
 }
 
 // Push an address of the free physical page onto the stack.
@@ -236,13 +236,13 @@ void init_mm (mb_info_t *mb_info)
 int alloc_pages (void *start_at, size_t count)
 {
     // Get the address of the current (loaded) page directory.
-    u32 cr3 = read_cr3 (); // It is stored in the CR3 register.
-    u32 *page_dir = (u32 *) cr3;
+    uint32_t cr3 = read_cr3 (); // It is stored in the CR3 register.
+    uint32_t *page_dir = (uint32_t *) cr3;
 
     // Calculate the address of the needed page table.
     int page_dir_offset = (int) start_at >> 22; // The offset of the needed page
     // table in the page directory.
-    u32 page_table = page_dir[page_dir_offset]; // Multiply the offset by 32
+    uint32_t page_table = page_dir[page_dir_offset]; // Multiply the offset by 32
     // (element size) and add it to the page directory address.
 
     if (0) page_table = 0; // dead code.
@@ -252,8 +252,8 @@ int alloc_pages (void *start_at, size_t count)
     for (i = (int) start_at; i < (int) start_at + count * 4096; i += 4096)
     {
         // Determine a page directory and a page table for the page "page".
-        u32 *page_dir_addr = (u32 *) (i >> 22); // Get the bits 22..31.
-        u32 *pgtbl_entry_addr = (u32 *) (page_dir_addr + ((i >> 12) & 0x3FF));
+        uint32_t *page_dir_addr = (uint32_t *) (i >> 22); // Get the bits 22..31.
+        uint32_t *pgtbl_entry_addr = (uint32_t *) (page_dir_addr + ((i >> 12) & 0x3FF));
         // Get the bits 12..21 and add them to the page directory address.
 
         // Is the page allocated?
@@ -267,8 +267,8 @@ int alloc_pages (void *start_at, size_t count)
     for (i = (int) start_at; i < (int) start_at + count * 4096; i += 4096)
     {
         // Determine a page directory and a page table for the page "page".
-        u32 *page_dir_addr = (u32 *) (i >> 22); // Get the bits 22..31.
-        u32 *pgtbl_entry_addr = (u32 *) (page_dir_addr + ((i >> 12) & 0x3FF));
+        uint32_t *page_dir_addr = (uint32_t *) (i >> 22); // Get the bits 22..31.
+        uint32_t *pgtbl_entry_addr = (uint32_t *) (page_dir_addr + ((i >> 12) & 0x3FF));
         // Get the bits 12..21 and add them to the page directory address.
 
         // The bits 9, 10, 11 of a page table entry are available.
@@ -301,13 +301,13 @@ int alloc_pages (void *start_at, size_t count)
 int free_pages (void *start_at)
 {
     // Get the address of the current (loaded) page directory.
-    u32 cr3 = read_cr3 (); // It is stored in the CR3 register.
-    u32 *page_dir = (u32 *) cr3;
+    uint32_t cr3 = read_cr3 (); // It is stored in the CR3 register.
+    uint32_t *page_dir = (uint32_t *) cr3;
 
     // Calculate the address of the needed page table.
     int page_dir_offset = (int) start_at >> 22; // The offset of the needed page table
     // in the page directory.
-    u32 page_table = page_dir[page_dir_offset]; // Multiply the offset by 32
+    uint32_t page_table = page_dir[page_dir_offset]; // Multiply the offset by 32
     // (element size) and add it to the page directory address.
 
     // Is the page table not present?
@@ -325,8 +325,8 @@ int free_pages (void *start_at)
     for (i = (int) start_at; ; i += 4096)
     {
         // Determine a page directory and a page table for the page "page".
-        u32 *page_dir_addr = (u32 *) (i >> 22); // Get the bits 22..31.
-        u32 *pgtbl_entry_addr = (u32 *) (page_dir_addr + ((i >> 12) & 0x3FF));
+        uint32_t *page_dir_addr = (uint32_t *) (i >> 22); // Get the bits 22..31.
+        uint32_t *pgtbl_entry_addr = (uint32_t *) (page_dir_addr + ((i >> 12) & 0x3FF));
         // Get the bits 12..21 and add them to the page directory address.
 
         // The bits 9, 10, 11 of a page table entry are available.
@@ -359,8 +359,9 @@ int free_pages (void *start_at)
     for (i = (int) start_at; i < (int) start_at + block_size * 4096; i += 4096)
     {
         // Determine a page directory and a page table for the page "page".
-        u32 *page_dir_addr = (u32 *) (i >> 22); // Get the bits 22..31.
-        u32 *pgtbl_entry_addr = (u32 *) (page_dir_addr + ((i >> 12) & 0x3FF));
+        uint32_t *page_dir_addr = (uint32_t *) (i >> 22); // Get the bits
+        // 22..31.
+        uint32_t *pgtbl_entry_addr = (uint32_t *) (page_dir_addr + ((i >> 12) & 0x3FF));
         // Get the bits 12..21 and add them to the page directory address.
 
         // The bits 9, 10, 11 of a page table entry are available.

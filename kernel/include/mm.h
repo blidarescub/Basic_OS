@@ -17,7 +17,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include <types.h>
+#include <structs.h>
 
 /* mm.c */
     /* Mapping. */

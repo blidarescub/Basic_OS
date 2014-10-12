@@ -8,7 +8,7 @@
 #include <paging.h>
 #include <inoutb.h>
 #include <stdint.h>
-#include <types.h>
+#include <structs.h>
 
 // IRQ handlers.
 void *irq_handlers[16] =
@@ -108,13 +108,13 @@ void irqs_handler (regs_irq_t *regs)
 }
 
 // Set an IRQ handler.
-void set_irq_handler (int irq_num, void (*handler) (regs_irq_t *))
+void set_irq_handler (uint32_t irq_num, void (*handler) (regs_irq_t *))
 {
     irq_handlers[irq_num] = handler;
 }
 
 // Unset an IRQ handler.
-void unset_irq_handler (int irq_num)
+void unset_irq_handler (uint32_t irq_num)
 {
     irq_handlers[irq_num] = 0;
 }

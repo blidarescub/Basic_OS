@@ -1,38 +1,34 @@
 // Basic Operating System.
-// Definitions of basic types.
+// Structures.
 
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef STRUCTS_H
+#define STRUCTS_H
 
 #include <stdint.h>
-
-typedef unsigned char	u8;
-typedef unsigned short	u16;
-typedef unsigned int	u32;
 
 // Registers pushed in an Exception IRQ.
 typedef struct
 {
-	u32 gs, fs, es, ds;
-	u32 edi, esi, ebp, esp, ebx, edx, ecx, eax;
-	u32 num, err_code;
-	u32 eip, cs, eflags, useresp, ss;
+	uint32_t gs, fs, es, ds;
+	uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
+	uint32_t num, err_code;
+	uint32_t eip, cs, eflags, useresp, ss;
 } __attribute__ ((packed)) regs_exc_t;
 
 // Registers pushed in an IRQ ISR.
 typedef struct
 {
-	u32 edi, esi, ebp, esp, ebx, edx, ecx, eax;
-	u32 num;
-	u32 eip, cs, eflags, useresp, ss;
+	uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
+	uint32_t num;
+	uint32_t eip, cs, eflags, useresp, ss;
 } __attribute__ ((packed)) regs_irq_t;
 
 // Registers pushed in IRQ0.
 typedef struct
 {
-    u32 edi, esi, ebp, esp, ebx, edx, ecx, eax;
-    u32 gs, fs, es, ds;
-    u32 eip, cs, eflags, useresp, ss;
+    uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
+    uint32_t gs, fs, es, ds;
+    uint32_t eip, cs, eflags, useresp, ss;
 } __attribute__ ((packed)) regs_irq0_t;
 
 // Multiboot information structure.
@@ -75,4 +71,4 @@ typedef struct
 	uint32_t vbe_interface_len;
 } __attribute__ ((packed)) mb_info_t;
 
-#endif /* !TYPES_H */
+#endif /* !STRUCTS_H */

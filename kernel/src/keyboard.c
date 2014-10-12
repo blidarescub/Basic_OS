@@ -7,7 +7,6 @@
 #include <mm.h>
 #include <screen.h>
 #include <inoutb.h>
-#include <types.h>
 
 // The keyboard buffer.
 char keyboard_buffer[8];
@@ -50,7 +49,7 @@ void init_keyboard_handler (void)
 void keyboard_handler (regs_irq_t *regs)
 {
 	// Get the scancode.
-	u8 scancode = inb (0x60);
+	uint8_t scancode = inb (0x60);
 
 	// Convert the scancode to a char.
 	char ch = scancode2char (scancode);
@@ -68,7 +67,7 @@ void keyboard_handler (regs_irq_t *regs)
 }
 
 // Convert the scancode to a char.
-char scancode2char (u8 scancode)
+char scancode2char (uint8_t scancode)
 {
 	char keymap[0x54] =
 	{

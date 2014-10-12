@@ -6,7 +6,6 @@
 #include <screen.h>
 #include <inoutb.h>
 #include <stdint.h>
-#include <types.h>
 
 idt_entry	idt[256];
 idt_pointer	idt_ptr;
@@ -91,10 +90,10 @@ void setup_idt (void)
 }
 
 // Mask an IRQ.
-void mask_irq (u16 num)
+void mask_irq (uint16_t num)
 {
-    u16 port;
-    u8 value;
+    uint16_t port;
+    uint8_t value;
 
     // Is this a Slave IRQ?
     if (num >= 8)
@@ -112,10 +111,10 @@ void mask_irq (u16 num)
 }
 
 // Unmask an IRQ.
-void unmask_irq (u16 num)
+void unmask_irq (uint16_t num)
 {
-    u16 port;
-    u8 value;
+    uint16_t port;
+    uint8_t value;
 
     // Is this a Slave IRQ?
     if (num >= 8)

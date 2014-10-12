@@ -4,10 +4,10 @@
 #ifndef INOUTB_H
 #define INOUTB_H
 
-#include <types.h>
+#include <stdint.h>
 
 /* inoutb.c */
-u8 inb (u16);
-void outb (u16, u8);
+uint8_t inb (uint16_t);
+void outb (uint16_t, uint8_t);
 
 #endif /* !INOUTB_H */

@@ -4,11 +4,11 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-#include <types.h>
+#include <stdint.h>
 
 /* memory.c */
-u8 *memcpy (u8 *, u8 *, int);
-u8 *memset (u8 *, u8, int);
-u16 *memsetw (u16 *, u16, int);
+uint8_t *memcpy (uint8_t *, uint8_t *, int);
+uint8_t *memset (uint8_t *, uint8_t, int);
+uint16_t *memsetw (uint16_t *, uint16_t, int);
 
 #endif /* !MEMORY_H */
