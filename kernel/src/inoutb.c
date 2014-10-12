@@ -1,18 +1,18 @@
 // Basic Operating System.
 // in() and outb().
 
-#include <types.h>
+#include <stdint.h>
 
 // Get a byte from the port.
-u8 inb (u16 port)
+uint8_t inb (uint16_t port)
 {
-    u8 rv;
+    uint8_t rv;
     asm volatile ("inb %1, %0" : "=a" (rv) : "Nd" (port));
     return rv;
 }
 
 // Send the byte to the port.
-void outb (u16 port, u8 val)
+void outb (uint16_t port, uint8_t val)
 {
     asm volatile ("outb %0, %1" : : "a" (val), "Nd" (port));
 }

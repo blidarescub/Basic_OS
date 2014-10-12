@@ -3,16 +3,16 @@
 
 #include <screen.h>
 #include <memory.h>
-#include <types.h>
+#include <stdint.h>
 
-u16 *video_buffer;
+uint16_t *video_buffer;
 int cursor_column;
 int cursor_row;
 
 // Initialize the screen.
 void init_screen (void)
 {
-    video_buffer = (u16 *) 0xB8000;
+    video_buffer = (uint16_t *) 0xB8000;
     cursor_column = 0;
     cursor_row = 0;
 }
@@ -20,7 +20,7 @@ void init_screen (void)
 // Clear the screen.
 void clear_screen (void)
 {
-    memset ((u8 *) 0xB8000, 0, VBUFFER_SIZE);
+    memset ((uint8_t *) 0xB8000, 0, VBUFFER_SIZE);
     cursor_column = 0;
     cursor_row = 0;
 }
@@ -28,9 +28,9 @@ void clear_screen (void)
 // Scroll the screen.
 void scroll_screen (void)
 {
-    memcpy ((u8 *) 0xB8000, (u8 *) 0xB8000 + SCREEN_WIDTH * 2,
+    memcpy ((uint8_t *) 0xB8000, (uint8_t *) 0xB8000 + SCREEN_WIDTH * 2,
 			VBUFFER_SIZE - SCREEN_WIDTH * 2);
-    memset ((u8 *) 0xB8000 + VBUFFER_SIZE - SCREEN_WIDTH * 2, 0,
+    memset ((uint8_t *) 0xB8000 + VBUFFER_SIZE - SCREEN_WIDTH * 2, 0,
 			SCREEN_WIDTH * 2);
     cursor_row = SCREEN_HEIGHT - 1;
     cursor_column = 0;

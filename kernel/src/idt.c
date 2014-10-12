@@ -5,6 +5,7 @@
 #include <isrs.h>
 #include <screen.h>
 #include <inoutb.h>
+#include <stdint.h>
 #include <types.h>
 
 idt_entry	idt[256];
@@ -33,58 +34,58 @@ void remap_pics (void)
 void setup_idt (void)
 {
     idt_ptr.size = (sizeof (idt_entry) * 256) - 1;
-    idt_ptr.address = (u32) &idt;
+    idt_ptr.address = (uint32_t) &idt;
 
-    set_idt_entry (0, (u32) &exc0);
-    set_idt_entry (1, (u32) &exc1);
-    set_idt_entry (2, (u32) &exc2);
-    set_idt_entry (3, (u32) &exc3);
-    set_idt_entry (4, (u32) &exc4);
-    set_idt_entry (5, (u32) &exc5);
-    set_idt_entry (6, (u32) &exc6);
-    set_idt_entry (7, (u32) &exc7);
-    set_idt_entry (8, (u32) &exc8);
-    set_idt_entry (9, (u32) &exc9);
-    set_idt_entry (10, (u32) &exc10);
-    set_idt_entry (11, (u32) &exc11);
-    set_idt_entry (12, (u32) &exc12);
-    set_idt_entry (13, (u32) &exc13);
-    set_idt_entry (14, (u32) &exc14);
-    set_idt_entry (15, (u32) &exc15);
-    set_idt_entry (16, (u32) &exc16);
-    set_idt_entry (17, (u32) &exc17);
-    set_idt_entry (18, (u32) &exc18);
-    set_idt_entry (19, (u32) &exc19);
-    set_idt_entry (20, (u32) &exc20);
-    set_idt_entry (21, (u32) &exc21);
-    set_idt_entry (22, (u32) &exc22);
-    set_idt_entry (23, (u32) &exc23);
-    set_idt_entry (24, (u32) &exc24);
-    set_idt_entry (25, (u32) &exc25);
-    set_idt_entry (26, (u32) &exc26);
-    set_idt_entry (27, (u32) &exc27);
-    set_idt_entry (28, (u32) &exc28);
-    set_idt_entry (29, (u32) &exc29);
-    set_idt_entry (30, (u32) &exc30);
-    set_idt_entry (31, (u32) &exc31);
+    set_idt_entry (0, (uint32_t) &exc0);
+    set_idt_entry (1, (uint32_t) &exc1);
+    set_idt_entry (2, (uint32_t) &exc2);
+    set_idt_entry (3, (uint32_t) &exc3);
+    set_idt_entry (4, (uint32_t) &exc4);
+    set_idt_entry (5, (uint32_t) &exc5);
+    set_idt_entry (6, (uint32_t) &exc6);
+    set_idt_entry (7, (uint32_t) &exc7);
+    set_idt_entry (8, (uint32_t) &exc8);
+    set_idt_entry (9, (uint32_t) &exc9);
+    set_idt_entry (10, (uint32_t) &exc10);
+    set_idt_entry (11, (uint32_t) &exc11);
+    set_idt_entry (12, (uint32_t) &exc12);
+    set_idt_entry (13, (uint32_t) &exc13);
+    set_idt_entry (14, (uint32_t) &exc14);
+    set_idt_entry (15, (uint32_t) &exc15);
+    set_idt_entry (16, (uint32_t) &exc16);
+    set_idt_entry (17, (uint32_t) &exc17);
+    set_idt_entry (18, (uint32_t) &exc18);
+    set_idt_entry (19, (uint32_t) &exc19);
+    set_idt_entry (20, (uint32_t) &exc20);
+    set_idt_entry (21, (uint32_t) &exc21);
+    set_idt_entry (22, (uint32_t) &exc22);
+    set_idt_entry (23, (uint32_t) &exc23);
+    set_idt_entry (24, (uint32_t) &exc24);
+    set_idt_entry (25, (uint32_t) &exc25);
+    set_idt_entry (26, (uint32_t) &exc26);
+    set_idt_entry (27, (uint32_t) &exc27);
+    set_idt_entry (28, (uint32_t) &exc28);
+    set_idt_entry (29, (uint32_t) &exc29);
+    set_idt_entry (30, (uint32_t) &exc30);
+    set_idt_entry (31, (uint32_t) &exc31);
 
     remap_pics ();
-    set_idt_entry (32, (u32) &irq0);
-    set_idt_entry (33, (u32) &irq1);
-    set_idt_entry (34, (u32) &irq2);
-    set_idt_entry (35, (u32) &irq3);
-    set_idt_entry (36, (u32) &irq4);
-    set_idt_entry (37, (u32) &irq5);
-    set_idt_entry (38, (u32) &irq6);
-    set_idt_entry (39, (u32) &irq7);
-    set_idt_entry (40, (u32) &irq8);
-    set_idt_entry (41, (u32) &irq9);
-    set_idt_entry (42, (u32) &irq10);
-    set_idt_entry (43, (u32) &irq11);
-    set_idt_entry (44, (u32) &irq12);
-    set_idt_entry (45, (u32) &irq13);
-    set_idt_entry (46, (u32) &irq14);
-    set_idt_entry (47, (u32) &irq15);
+    set_idt_entry (32, (uint32_t) &irq0);
+    set_idt_entry (33, (uint32_t) &irq1);
+    set_idt_entry (34, (uint32_t) &irq2);
+    set_idt_entry (35, (uint32_t) &irq3);
+    set_idt_entry (36, (uint32_t) &irq4);
+    set_idt_entry (37, (uint32_t) &irq5);
+    set_idt_entry (38, (uint32_t) &irq6);
+    set_idt_entry (39, (uint32_t) &irq7);
+    set_idt_entry (40, (uint32_t) &irq8);
+    set_idt_entry (41, (uint32_t) &irq9);
+    set_idt_entry (42, (uint32_t) &irq10);
+    set_idt_entry (43, (uint32_t) &irq11);
+    set_idt_entry (44, (uint32_t) &irq12);
+    set_idt_entry (45, (uint32_t) &irq13);
+    set_idt_entry (46, (uint32_t) &irq14);
+    set_idt_entry (47, (uint32_t) &irq15);
 
     load_idt ();
 }
@@ -132,7 +133,7 @@ void unmask_irq (u16 num)
 }
 
 // Change an IDT entry.
-void set_idt_entry (int num, u32 routineAddr)
+void set_idt_entry (uint32_t num, uint32_t routineAddr)
 {
     idt[num].routineAddr_low = routineAddr & 0xFFFF;
     idt[num].segSelector = 0x08;

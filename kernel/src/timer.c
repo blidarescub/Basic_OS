@@ -34,5 +34,4 @@ void timer_handler (regs_irq_t *regs)
     {
         ++timer_seconds;
     }
-
 }

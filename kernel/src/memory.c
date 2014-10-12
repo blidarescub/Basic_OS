@@ -2,10 +2,10 @@
 // Functions for working with the memory.
 
 #include <memory.h>
-#include <types.h>
+#include <stdint.h>
 
 // Copy {count} bytes from the {src} to the {dest}.
-u8 *memcpy (u8 *dest, u8 *src, int count)
+uint8_t *memcpy (uint8_t *dest, uint8_t *src, int count)
 {
     int i;
     for (i = 0; i < count; ++i)
@@ -16,7 +16,7 @@ u8 *memcpy (u8 *dest, u8 *src, int count)
 }
 
 // Set {count} bytes at the {dest} to the {val}.
-u8 *memset (u8 *dest, u8 val, int count)
+uint8_t *memset (uint8_t *dest, uint8_t val, int count)
 {
     int i;
     for (i = 0; i < count; ++i)
@@ -27,7 +27,7 @@ u8 *memset (u8 *dest, u8 val, int count)
 }
 
 // Set {count} words at the {dest} to the {val}.
-u16 *memsetw (u16 *dest, u16 val, int count)
+uint16_t *memsetw (uint16_t *dest, uint16_t val, int count)
 {
     int i;
     for (i = 0; i < count; ++i)

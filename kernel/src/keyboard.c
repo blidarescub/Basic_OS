@@ -5,10 +5,9 @@
 #include <idt.h>
 #include <handlers.h>
 #include <mm.h>
+#include <screen.h>
 #include <inoutb.h>
 #include <types.h>
-
-#include <screen.h>
 
 // The keyboard buffer.
 char keyboard_buffer[8];

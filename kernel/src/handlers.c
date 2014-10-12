@@ -7,6 +7,7 @@
 #include <mm.h>
 #include <paging.h>
 #include <inoutb.h>
+#include <stdint.h>
 #include <types.h>
 
 // IRQ handlers.
@@ -63,10 +64,10 @@ void excs_handler (regs_exc_t *regs)
 
             // The CR2 register holds the virtual address that caused the page
             // fault.
-            int vaddr = read_cr2 ();
+            uint32_t vaddr = read_cr2 ();
 
             // Get the page table that covers the virtual address `vaddr'.
-            int pt = vaddr >> 22;
+            uint32_t pt = vaddr >> 22;
 
             // Create the needed page table.
             create_page_table (pt);
