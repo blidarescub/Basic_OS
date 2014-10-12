@@ -168,7 +168,7 @@ uint32_t pop_physical_page (void)
 }
 
 // Initialize the memory manager.
-void init_mm (mb_info_t *mb_info)
+void init_mm (mb_info_t *mb_info, mmap_t mmap)
 {
     /*int physical_memory_size = mb_info->mem_upper;*/ // not used
     /*int lower_memory_size = mb_info->mem_lower * 1024;*/ // not used
@@ -183,18 +183,22 @@ void init_mm (mb_info_t *mb_info)
     }
 
     char str[32];
+    puts ("Amount of memory: ");
+    puts (itoa (mb_info->mem_upper / 1024 + 2, str, 10));
+    puts ("MB\n");
+
     puts ("mmap_addr = 0x");
-    puts (itoa (mb_info->mmap_addr, str, 16));
+    puts (itoa (mmap.addr, str, 16));
     puts (", mmap_length = 0x");
-    puts (itoa (mb_info->mmap_length, str, 16));
+    puts (itoa (mmap.length, str, 16));
     puts ("\n");
 
     stack_ptr = (uint32_t *) 0x90000;
 
     // Loop through the memory map and print all the regions.
     uint32_t i; // Current entry of the memory map.
-    i = mb_info->mmap_addr;
-    while (i < (mb_info->mmap_addr + mb_info->mmap_length))
+    i = mmap.addr;
+    while (i < (mmap.addr + mmap.length))
     {
         uint32_t *size = (uint32_t *) i; // Size of the entry.
         uint32_t *base_addr_low = (uint32_t *) (i + 4); // Bits 0..31 of the

@@ -19,6 +19,13 @@
 #include <stddef.h>
 #include <structs.h>
 
+// Memory map descriptor.
+typedef struct
+{
+    uint32_t addr;
+    uint32_t length;
+} __attribute__ ((packed)) mmap_t;
+
 /* mm.c */
     /* Mapping. */
     int map_page (uint32_t, uint32_t);
@@ -33,7 +40,7 @@
     uint32_t pop_physical_page (void);
 
     /* Virtual memory manager. */
-    void init_mm (mb_info_t *);
+    void init_mm (mb_info_t *, mmap_t);
     int  alloc_pages (void *, size_t);
     int  free_pages (void *);
     void invlpg (uint32_t);
