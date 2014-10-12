@@ -7,8 +7,8 @@
 // Initialize paging.
 void init_paging (void)
 {
-    u32 *page_directory = (u32 *) 0x0000;
-    u32 *page_table = (u32 *) 0x1000;
+    u32 *page_directory = (u32 *) 0x9C000;
+    u32 *page_table = (u32 *) 0x9D000;
 
     // Fill in the first page table.
     int address = 0; // The physical address of a page.
