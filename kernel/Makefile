@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -Wall -m32 -c -ffreestanding -Iinclude/ -nostdinc -nostdlib
+CFLAGS = -Wall -m32 -c -ffreestanding -Iinclude/ -nostdlib
 
 ASOURCES = $(wildcard src/*.asm)
 AOBJECTS = $(ASOURCES:.asm=.o)
