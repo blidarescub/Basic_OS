@@ -185,7 +185,7 @@ void init_mm (mb_info_t *mb_info, mmap_t mmap)
     char str[32];
     puts ("Amount of memory: ");
     puts (itoa (mb_info->mem_upper / 1024 + 2, str, 10));
-    puts ("MB\n");
+    puts (" MB\n");
 
     puts ("mmap_addr = 0x");
     puts (itoa (mmap.addr, str, 16));
