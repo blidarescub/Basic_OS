@@ -4,6 +4,8 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#define NULL 0
+
 typedef unsigned char	u8;
 typedef unsigned short	u16;
 typedef unsigned int	u32;
@@ -24,6 +26,14 @@ typedef struct
 	u32 num;
 	u32 eip, cs, eflags, useresp, ss;
 } __attribute__ ((packed)) regs_irq_t;
+
+// Registers pushed in IRQ0.
+typedef struct
+{
+    u32 edi, esi, ebp, esp, ebx, edx, ecx, eax;
+    u32 gs, fs, es, ds;
+    u32 eip, cs, eflags, useresp, ss;
+} __attribute__ ((packed)) regs_irq0_t;
 
 // Multiboot information structure.
 typedef struct

@@ -40,7 +40,7 @@ extern irqs_handler
         pop ds
         popa
         add esp, 8				; Skip the two bytes pushed.
-        iret
+        iretd
 %endmacro
 
 ; Define an ISR for an Exception with error code.
@@ -73,7 +73,7 @@ extern irqs_handler
         pop ds
         popa
         add esp, 8				; Skip the byte pushed and the error code.
-        iret
+        iretd
 %endmacro
 
 ; Define an ISR for an IRQ.
@@ -92,7 +92,7 @@ extern irqs_handler
 
         popa
         add esp, 4				; Skip the pushed IRQ number.
-        iret
+        iretd
 %endmacro
 
 ; The ISRs for the Exceptions.
@@ -130,6 +130,8 @@ ISR_EXC_EC 30
 ISR_EXC 31
 
 ; The ISRs for the IRQs.
+; Note: we don't define here an ISR for the IRQ0, since it is different from
+; others. It is defined below.
 ISR_IRQ 0
 ISR_IRQ 1
 ISR_IRQ 2
@@ -146,3 +148,25 @@ ISR_IRQ 12
 ISR_IRQ 13
 ISR_IRQ 14
 ISR_IRQ 15
+; IRQ0.
+    global irqUNUSED
+    irqUNUSED:
+        pusha
+        push ds
+        push es
+        push fs
+        push gs
+
+        mov eax, esp
+        push eax
+        ;extern switch_task              ; process.c
+        ;mov eax, switch_task
+        call eax
+        pop eax
+
+        pop gs
+        pop fs
+        pop es
+        pop ds
+        popa
+        iret
