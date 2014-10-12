@@ -3,7 +3,7 @@
 # This script runs the specified (and supported) emulator.
 # "Supported" means that the code to start that emulator is written here.
 
-DEFAULT=bochs                       # Default emulator/VM.
+DEFAULT=qemu                        # Default emulator/VM.
 CURRENT=$DEFAULT                    # Emulator/VM to run.
 
 VBOX_VM_NAME="Basic OS"             # Place here the name of the virtual
@@ -37,27 +37,27 @@ elif [ "$CURRENT" = qemu ]; then	# User wants to run the OS in QEMU?
 	if test $CURRENT; then
 		# Yes.
 
-		echo 'To quit QEMU, press ESC-2 and run `quit`.'
-		echo -n 'Continue? [Y/n] '
-		read answer
+#		echo 'To quit QEMU, press ESC-2 and run `quit`.'
+#		echo -n 'Continue? [Y/n] '
+#		read answer
+#
+#		answer=$(echo $answer | tr '[:upper:]' '[:lower:]')
+#
+#		if [ "$answer" = "" ]; then
+#			answer="y"
+#		fi
+#
+#		first_char=$(echo $answer | head -c 1)
 
-		answer=$(echo $answer | tr '[:upper:]' '[:lower:]')
-
-		if [ "$answer" = "" ]; then
-			answer="y"
-		fi
-
-		first_char=$(echo $answer | head -c 1)
-
-		if [ "$first_char" = "y" ]; then
+#		if [ "$first_char" = "y" ]; then
 			qemu-system-i386\
 				-cdrom disk/myos.iso\
 				-boot cd\
 				-rtc base=localtime,clock=host,driftfix=slew\
-				-curses
-		else
-			echo "Aborted."
-		fi
+                -m 64
+#		else
+#			echo "Aborted."
+#		fi
 	else
 		# No.
 		echo -n "The \`qemu-system-i386\` package is not installed "
