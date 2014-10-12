@@ -4,7 +4,7 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#define NULL 0
+#include <stdint.h>
 
 typedef unsigned char	u8;
 typedef unsigned short	u16;
@@ -38,41 +38,41 @@ typedef struct
 // Multiboot information structure.
 typedef struct
 {
-	u32 flags;
+	uint32_t flags;
 
-	u32 mem_lower;
-	u32 mem_upper;
+	uint32_t mem_lower;
+	uint32_t mem_upper;
 
-	u32 boot_device;
+	uint32_t boot_device;
 
-	u32 cmdline;
+	uint32_t cmdline;
 
-	u32 mods_count;
-	u32 mods_addr;
+	uint32_t mods_count;
+	uint32_t mods_addr;
 
-	u32 syms1;
-	u32 syms2;
-	u32 syms3;
-	u32 syms4;
+	uint32_t syms1;
+	uint32_t syms2;
+	uint32_t syms3;
+	uint32_t syms4;
 
-	u32 mmap_length;
-	u32 mmap_addr;
+	uint32_t mmap_length;
+	uint32_t mmap_addr;
 
-	u32 drives_length;
-	u32 drives_addr;
+	uint32_t drives_length;
+	uint32_t drives_addr;
 
-	u32 config_table;
+	uint32_t config_table;
 
-	u32 bootloader_name;
+	uint32_t bootloader_name;
 
-	u32 apm_table;
+	uint32_t apm_table;
 
-	u32 vbe_control_info;
-	u32 vbe_mode_info;
-	u32 vbe_mode;
-	u32 vbe_interface_seg;
-	u32 vbe_interface_off;
-	u32 vbe_interface_len;
+	uint32_t vbe_control_info;
+	uint32_t vbe_mode_info;
+	uint32_t vbe_mode;
+	uint32_t vbe_interface_seg;
+	uint32_t vbe_interface_off;
+	uint32_t vbe_interface_len;
 } __attribute__ ((packed)) mb_info_t;
 
 #endif /* !TYPES_H */
