@@ -5,14 +5,14 @@
 #include <screen.h>
 #include <string.h>
 #include <types.h>
+#include <stdint.h>
 
 // The stack (the stack of free physical pages) pointer.
-int *stack_ptr;
-int *stack_ptr_limit;
-int *initial_stack_ptr;
+uint32_t *stack_ptr;
+uint32_t *initial_stack_ptr;
 
 // Map a virtual page to a physical one.
-int map_page (int virtual, int physical)
+int map_page (uint32_t virtual, uint32_t physical)
 {
     // Are the addresses 4KB-aligned?
     if (virtual & 0xFFF)
@@ -27,15 +27,15 @@ int map_page (int virtual, int physical)
     }
 
     // Get the physical address of the current page directory.
-    u32 *page_dir_addr = (u32 *) read_cr3 ();
-    u32 *page_dir_entry_addr = page_dir_addr + (virtual >> 22);
+    uint32_t *page_dir_addr = (uint32_t *) read_cr3 ();
+    uint32_t *page_dir_entry_addr = page_dir_addr + (virtual >> 22);
 
     // Calculate the address of a page table that contains an entry for the
     // specified virtual page.
-    u32 *page_table_addr = (u32 *) (*page_dir_entry_addr >> 12 << 12);
+    uint32_t *page_table_addr = (uint32_t *) (*page_dir_entry_addr >> 12 << 12);
 
     // Is the page table not present?
-    if ((int) *page_table_addr == 0)
+    if ((uint32_t) *page_table_addr == 0)
     {
         // TODO: Create a new page table, create an entry in the page
         // directory for it (also call invlpg()), and something else.
@@ -44,20 +44,20 @@ int map_page (int virtual, int physical)
     }
 
     // Calculate the address of that entry.
-    u32 *page_table_entry_addr = page_table_addr + ((virtual >> 12) & 0x3FF);
-    const u32 page_table_entry = *page_table_entry_addr; // Just a copy.
+    uint32_t *page_table_entry_addr = page_table_addr + ((virtual >> 12) & 0x3FF);
+    const uint32_t page_table_entry = *page_table_entry_addr; // Just a copy.
 
     // Change the page table entry.
-    *page_table_entry_addr = (u32) (physical | (page_table_entry & 0xFFF));
+    *page_table_entry_addr = (uint32_t) (physical | (page_table_entry & 0xFFF));
 
     // Remove the page table from the TLB.
-    invlpg ((void *) virtual);
+    invlpg (virtual);
 
     return MAP_SUCCESS;
 }
 
 // Map virtual pages to physical ones.
-int map_pages (int virtual, int physical, int count)
+int map_pages (uint32_t virtual, uint32_t physical, size_t count)
 {
     // Are the address 4KB-aligned?
     if (virtual & 0xFFF)
@@ -141,27 +141,14 @@ u32 *create_page_table (int num)
 }
 
 // Push an address of the free physical page onto the stack.
-void push_physical_page (int address)
+void push_physical_page (uint32_t address)
 {
-    if (stack_ptr == stack_ptr_limit)
-    {
-        puts ("Reached the limit of the stack of free pages.\n");
-        puts ("Halting.");
-        halt ();
-    }
-
     stack_ptr -= 4;
     *stack_ptr = address;
-
-    // Mark the page as free.
-    free_pages ((void *) address);
-    // Though it's a virtual memory manager function and it interacts with the
-    // virtual address space, in our OS the virtual addresses of the kernel are
-    // mapped to the same physical addresses, so don't worry about this call.
 }
 
 // Pop an address of the free physical page from the stack.
-int pop_physical_page (void)
+uint32_t pop_physical_page (void)
 {
     if (stack_ptr == initial_stack_ptr)
     {
@@ -169,14 +156,8 @@ int pop_physical_page (void)
         puts ("Halting.");
         halt ();
     }
-    int address = *stack_ptr;
+    uint32_t address = *stack_ptr;
     stack_ptr += 4;
-
-    // Mark the page as used.
-    alloc_pages ((void *) address, 1);
-    // Though it's a virtual memory manager function and it interacts with the
-    // virtual address space, in our OS the virtual addresses of the kernel are
-    // mapped to the same physical addresses, so don't worry about this call.
 
     return address;
 }
@@ -187,27 +168,73 @@ void init_mm (mb_info_t *mb_info)
     /*int physical_memory_size = mb_info->mem_upper;*/ // not used
     /*int lower_memory_size = mb_info->mem_lower * 1024;*/ // not used
 
-    stack_ptr = (int *) 0x3000;
-    stack_ptr_limit = (int *)  0x2000; // At 0x1000 - 0x2000 is a page table.
-    initial_stack_ptr = stack_ptr;
-
-    int i;
-    for (i = 0x3000; i < 0x0FF000; i += 4096)
+    // Is there a memory map provided by bootloader?
+    if (!(mb_info->flags & 0x40)) // 6th bit not set?
     {
-        // Push the address of the free physical page onto the stack of free
-        // physical pages.
-        push_physical_page (i);
+        puts ("Sorry, but the bootloader didn't provide the kernel with a");
+        puts (" memory map.\n");
+        puts ("Halting.");
+        halt ();
+    }
+
+    char str[32];
+    puts ("mmap_addr = 0x");
+    puts (itoa (mb_info->mmap_addr, str, 16));
+    puts (", mmap_length = 0x");
+    puts (itoa (mb_info->mmap_length, str, 16));
+    puts ("\n");
+
+    // We need 128 KB of RAM to store the stack of free pages.
+    // Since we consider only low 32 bits of addresses below, the maximum
+    // value of free physical memory is 4 GB, or 1024*1024 pages.
+    stack_ptr = (uint32_t *) 0x20000;
+
+    // Loop through the memory map and print all the regions.
+    uint32_t i; // Current entry of the memory map.
+    i = mb_info->mmap_addr;
+    while (i < (mb_info->mmap_addr + mb_info->mmap_length))
+    {
+        uint32_t *size = (uint32_t *) i; // Size of the entry.
+        uint32_t *base_addr_low = (uint32_t *) (i + 4); // Bits 0..31 of the
+        // start of the region.
+//      uint32_t *base_addr_high = (uint32_t *) (i + 8); // Bits 32..63 of the
+        // start of the region.
+        uint32_t *length_low = (uint32_t *) (i + 12); // Bits 0..31 of the
+        // length of the region.
+//      uint32_t *length_high = (uint32_t *) (i + 16); // Bits 32..63 of the
+        // length of the region.
+        uint32_t *type = (uint32_t *) (i + 20); // Type of the region.
+
+        puts (" size = 0x");
+        puts (itoa (*size, str, 16));
+        puts (", start = 0x");
+        puts (itoa (*base_addr_low, str, 16));
+        puts (", end = 0x");
+        puts (itoa (*base_addr_low + *length_low, str, 16));
+        puts (", type = ");
+        if (*type == 1) // Free?
+        {
+            puts ("free");
+            // Loop through the region and push addresses of pages onto the
+            // stack.
+            int j;
+            for (j = *base_addr_low; j < (*base_addr_low + *length_low);
+                    j += 4096)
+            {
+                push_physical_page (j);
+            }
+        }
+        else
+            puts ("reserved");
+        puts ("\n");
+
+        i += *size + 4; // +4 since the `size' field is at offset 0, not -4.
     }
 }
 
 // Allocate virtual pages.
-int alloc_pages (void *start_at, int count)
+int alloc_pages (void *start_at, size_t count)
 {
-    if (count < 0)
-    {
-        return ALLOC_ZEROCOUNT;
-    }
-
     // Get the address of the current (loaded) page directory.
     u32 cr3 = read_cr3 (); // It is stored in the CR3 register.
     u32 *page_dir = (u32 *) cr3;
@@ -263,7 +290,7 @@ int alloc_pages (void *start_at, int count)
         }
 
         // Remove the page from the TLB.
-        invlpg ((void *) i);
+        invlpg ((uint32_t) i);
     }
 
     // Successfully allocated.
@@ -344,14 +371,14 @@ int free_pages (void *start_at)
         *pgtbl_entry_addr &= ~(0x200); // 0x200 = the 9th bit
 
         // Remove the page from the TLB.
-        invlpg ((void *) i);
+        invlpg ((uint32_t) i);
     }
 
     return FREE_SUCCESS;
 }
 
 // Remove a page from the TLB (Translation Lookaside Buffer).
-inline void invlpg (void *page_addr)
+inline void invlpg (uint32_t page_addr)
 {
     asm volatile ("invlpg (%0)" : : "b" (page_addr) : "memory");
 }
