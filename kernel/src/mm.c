@@ -8,6 +8,7 @@
 
 // The stack (the stack of free physical pages) pointer.
 int *stack_ptr;
+int *stack_ptr_limit;
 int *initial_stack_ptr;
 
 // Map a virtual page to a physical one.
@@ -142,6 +143,13 @@ u32 *create_page_table (int num)
 // Push an address of the free physical page onto the stack.
 void push_physical_page (int address)
 {
+    if (stack_ptr == stack_ptr_limit)
+    {
+        puts ("Reached the limit of the stack of free pages.\n");
+        puts ("Halting.");
+        halt ();
+    }
+
     stack_ptr -= 4;
     *stack_ptr = address;
 
@@ -177,14 +185,14 @@ int pop_physical_page (void)
 void init_mm (mb_info_t *mb_info)
 {
     /*int physical_memory_size = mb_info->mem_upper;*/ // not used
-    int lower_memory_size = mb_info->mem_lower * 1024;
+    /*int lower_memory_size = mb_info->mem_lower * 1024;*/ // not used
 
-    int stack_size = 640;
-    stack_ptr = (int *) 0x00000 + stack_size;
+    stack_ptr = (int *) 0x3000;
+    stack_ptr_limit = (int *)  0x2000; // At 0x1000 - 0x2000 is a page table.
     initial_stack_ptr = stack_ptr;
 
     int i;
-    for (i = 0x2000; i < lower_memory_size; i += 4096)
+    for (i = 0x3000; i < 0x0FF000; i += 4096)
     {
         // Push the address of the free physical page onto the stack of free
         // physical pages.

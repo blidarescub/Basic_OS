@@ -31,10 +31,5 @@ void kernel_main (mb_info_t *mb_info)
     init_paging ();
     init_mm (mb_info);
 
-    int *addr = (int *) 0x400000;
-    *addr = 0x20;
-
-    char str[32];
-    puts ("0x");
-    puts (itoa (*addr, str, 16));
+    puts ("Hello World!\n");
 }
