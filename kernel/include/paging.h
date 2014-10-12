@@ -11,16 +11,16 @@
  *  located from 0x9D000 to 0x9E000 (4 kB).
  */
 
-#include <types.h>
+#include <stdint.h>
 
 /* paging.c */
 void init_paging (void);
 
 /* paging_ll.asm */
-extern u32  read_cr0 (void);
-extern void write_cr0 (u32);
-extern u32  read_cr3 (void);
-extern void write_cr3 (u32);
+extern uint32_t  read_cr0 (void);
+extern void      write_cr0 (uint32_t);
+extern uint32_t  read_cr3 (void);
+extern void      write_cr3 (uint32_t);
 
 /* kernel_ll.asm */
 extern void update_segregs (void);
